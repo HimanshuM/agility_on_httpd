@@ -25,7 +25,7 @@ use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 
 		}
 
-		static function new($arr = []) {
+		static function options($arr = []) {
 
 			$config = new Smtp;
 			$config->host = $arr["host"] ?? null;
