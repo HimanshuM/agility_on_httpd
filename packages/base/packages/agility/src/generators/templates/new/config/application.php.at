@@ -1,0 +1,17 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace <?= $this->appName(); ?>;
+
+use Agility;
+
+	class Application extends Agility\Application {
+
+		function __construct() {
+<?= $this->apiOnly ? "\n" : ""; ?>
+			parent::__construct();
+<?= $this->apiOnly ? "			Agility\Configuration::apiOnly(true);\n\n" : ""; ?>
+		}
+
+	}
+
+<?= $this->phpTagClose(); ?>

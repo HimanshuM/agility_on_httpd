@@ -1,0 +1,15 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace App\Controllers;
+
+use Agility\Http;
+
+	abstract class ApplicationController extends Http\<?= $this->apiOnly ? "Api" : ""; ?>Controller {
+
+		function __construct() {
+			parent::__construct();
+		}
+
+	}
+
+<?= $this->phpTagClose(); ?>

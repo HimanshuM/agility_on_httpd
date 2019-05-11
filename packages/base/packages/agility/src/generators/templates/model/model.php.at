@@ -1,0 +1,15 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace App\Models<?= $this->namespace; ?>;
+<?= $this->useParent(); ?>
+	class <?= $this->model; ?> <?= $this->parentClass(); ?>{
+<?= $this->hasTableName(); ?>
+<?= $this->primaryKeyType(); ?>
+
+		static function initialize() {
+			<?= $this->_parentClass == "ApplicationModel" ? "parent::initialize();\n" : "\n"; ?>
+		}
+
+	}
+
+<?= $this->phpTagClose(); ?>

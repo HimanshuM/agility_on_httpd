@@ -1,0 +1,8 @@
+<?php
+
+	define ("APP_PATH", realpath(__DIR__."/../config/application.php"));
+
+	$server = new Agility\Console\Commands\ServerCommand;
+	$server->perform([]);
+
+?>

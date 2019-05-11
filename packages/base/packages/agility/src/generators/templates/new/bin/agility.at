@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?= $this->phpTagOpen(); ?>
+
+	define ("APP_PATH", realpath(__DIR__."/../config/application.php"));
+
+	new Agility\Commands($argv);
+
+<?= $this->phpTagClose(); ?>

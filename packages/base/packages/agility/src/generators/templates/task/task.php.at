@@ -1,0 +1,15 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace Lib\Tasks<?= $this->namespace; ?>;
+
+use Agility\Tasks;
+
+	class <?= $this->taskName; ?> extends Tasks\Base {
+
+		function __construct() {
+			parent::__construct();
+		}
+<?= $this->renderTask(); ?>
+	}
+
+<?= $this->phpTagClose(); ?>

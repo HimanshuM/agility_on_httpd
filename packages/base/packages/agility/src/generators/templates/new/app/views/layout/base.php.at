@@ -1,0 +1,10 @@
+<html>
+<head>
+	<title><?= $this->phpEchoTagOpen(); ?> $this->title(); <?= $this->phpTagClose(); ?></title>
+	<?= $this->phpEchoTagOpen(); ?> $this->js(); <?= $this->phpTagClose()."\n"; ?>
+	<?= $this->phpEchoTagOpen(); ?> $this->css(); <?= $this->phpTagClose()."\n"; ?>
+</head>
+<body>
+	<?= $this->phpEchoTagOpen(); ?> $this->content(); <?= $this->phpTagClose()."\n"; ?>
+</body>
+</html>

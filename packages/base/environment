@@ -1,0 +1,2 @@
+export PATH="/home/himanshu/.phpm/packages/default/bin/:$PATH"
+export PHPMP_HOME="/home/himanshu/.phpm/packages/default/packages"

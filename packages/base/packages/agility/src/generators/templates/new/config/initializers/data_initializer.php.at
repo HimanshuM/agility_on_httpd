@@ -1,0 +1,6 @@
+<?= $this->phpTagOpen(); ?>
+
+// Define a default database connection
+Agility\Data\Connection\Pool::$defaultConnection = 0;
+
+<?= $this->phpTagClose(); ?>

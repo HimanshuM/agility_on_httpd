@@ -1,0 +1,28 @@
+<?= $this->phpTagOpen(); ?>
+
+// Rename session cookie to whatever is desired
+Agility\Config::sessionStore()->cookieName = "agility_sess";
+// Session cookie is not HttpOnly by default. Enable the below line to enable
+// secure cookie only
+// Agility\Config::sessionStore()->secureCookie = true;
+
+// Define how the session is identfied
+// Default: cookie
+// Uncomment to define session identification through Authorization header
+// Agility\Config::sessionStore()->sessionSource = ["header" => "authorization", "authorization" => "bearer"];
+
+// Default session store is file, just like the default PHP way.
+
+// Enable the line below to use cookies as session store:
+// Agility\Config::sessionStore()->storage = "CookieStore";
+// Cookie store is encrypted with AES GCM encryption, which requires a private encryption key to read the data.
+// Make sure to generate config/security.json file for the encryption keys. Safest way to do so is by running
+// the command 'agility secret'.
+
+// Enable the line below to use a database table for session store, change the name of the model class to your class:
+// Agility\Config::sessionStore()->storage = App\Models\Session::class;
+
+// Default session expiry duration is 20 mins, use the below setting to modify it:
+// Agility\Config::sessionStore()->expiry = 1200;
+
+<?= $this->phpTagClose(); ?>

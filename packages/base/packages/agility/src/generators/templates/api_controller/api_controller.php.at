@@ -1,0 +1,81 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace App\Controllers<?= $this->namespace; ?>;
+
+<?= $this->useNamespace(); ?>
+<?php if ($this->scaffold) { ?>
+use App\Models\<?= $this->scaffold; ?>;
+<?php } ?>
+
+	class <?= $this->controller; ?>Controller extends <?= $this->parentClass ?> {
+
+<?php if ($this->scaffold) { ?>
+		protected $<?= $this->scaffoldObject; ?>;
+		<?= "\n"; ?>
+<?php } ?>
+		function __construct() {
+			parent::__construct();
+<?php if ($this->scaffold) { ?>
+			$this->beforeAction("set<?= $this->scaffold; ?>", ["show", "update", "delete"]);
+<?php } ?>
+		}
+
+<?php if ($this->scaffold) { ?>
+		// GET /<?= $this->filePath."\n"; ?>
+		function index() {
+			return <?= $this->scaffold; ?>::all();
+		}
+
+		// POST /<?= $this->filePath."\n"; ?>
+		function create() {
+
+			$this-><?= $this->scaffoldObject; ?> = <?= $this->scaffold; ?>::new($this-><?= $this->scaffoldObject; ?>Params());
+			if ($this-><?= $this->scaffoldObject; ?>->save()) {
+				$this->json($this-><?= $this->scaffoldObject; ?>, Http\Status::Created);
+			}
+			else {
+				$this->json(["errors" => $this-><?= $this->scaffoldObject; ?>->errors], Http\Status::UnprocessableEntity);
+			}
+
+		}
+
+		// GET /<?= $this->filePath; ?>/1
+		function show() {
+			return $this-><?= $this->scaffoldObject; ?>;
+		}
+
+		// PUT/PATCH /<?= $this->filePath; ?>/1
+		function update() {
+
+			if ($this-><?= $this->scaffoldObject; ?>->update($this-><?= $this->scaffoldObject ?>Params())) {
+				return $this-><?= $this->scaffoldObject; ?>;
+			}
+			else {
+				$this->json(["errors" => $this-><?= $this->scaffoldObject; ?>->errors], Http\Status::UnprocessableEntity);
+			}
+
+		}
+
+		// DELETE /<?= $this->filePath; ?>/1
+		function delete() {
+
+			$this-><?= $this->scaffoldObject; ?>->delete();
+			$this->json([], Http\Status::NoContent);
+
+		}
+<?php } ?>
+
+<?= $this->renderMethods(); ?>
+<?php if ($this->scaffold) {?>
+		protected function set<?= $this->scaffold; ?>() {
+			$this-><?= $this->scaffoldObject; ?> = <?= $this->scaffold; ?>::find($this->params["id"]);
+		}
+
+		protected function <?= $this->scaffoldObject; ?>Params() {
+			return $this->params->fetch("<?= $this->scaffoldObject; ?>", []);
+		}
+<?php } ?>
+
+	}
+
+<?= $this->phpTagClose(); ?>

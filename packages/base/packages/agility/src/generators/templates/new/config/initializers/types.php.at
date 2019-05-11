@@ -1,0 +1,5 @@
+<?= $this->phpTagOpen(); ?>
+
+// \Agility\Data\Types\Base::register(YourType::class, "your_type_name");
+
+<?= $this->phpTagClose(); ?>

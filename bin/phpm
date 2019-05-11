@@ -1,0 +1,2 @@
+#!/usr/bin/php
+<?php $c = new Phpm\Commands($argv); ?>

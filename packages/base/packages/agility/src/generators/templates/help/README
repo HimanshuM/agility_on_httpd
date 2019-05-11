@@ -1,0 +1,10 @@
+Agility Help
+Format: agility <command> [options]
+Available commands:
+
+new or n:	Create a new Agility application.
+generate or g:	Generate a new model, controller or task.
+server or s:	Start the Agility server.
+version or v:	Version of Agility.
+
+Type agility help <command> for help on individual commands.

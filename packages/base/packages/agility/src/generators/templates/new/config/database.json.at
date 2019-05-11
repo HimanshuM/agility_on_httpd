@@ -1,0 +1,32 @@
+{
+	"development":[
+		{
+			"adapter":"mysql",
+			"host":"localhost",
+			"port":"DEFAULT",
+			"database":"sample_db",
+			"username":"username",
+			"password":"password"
+		}
+	],
+	"test":[
+		{
+			"adapter":"mysql",
+			"host":"localhost",
+			"port":"DEFAULT",
+			"database":"sample_db",
+			"username":"username",
+			"password":"password"
+		}
+	],
+	"production":[
+		{
+			"adapter":"mysql",
+			"host":"localhost",
+			"port":"DEFAULT",
+			"database":"sample_db",
+			"username":"username",
+			"password":"password"
+		}
+	]
+}
