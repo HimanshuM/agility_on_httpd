@@ -39,12 +39,12 @@ use Swoole;
 
 		}
 
-		function sendLater($after = 0) {
-			Swoole\Timer::after($after, [$this, "sendMail"]);
+		function sendAsync() {
+
 		}
 
 		function sendNow() {
-			Swoole\Event::defer([$this, "sendMail"]);
+			$this->sendMail();
 		}
 
 	}
