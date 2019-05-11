@@ -13,15 +13,8 @@ use Swoole;
 		protected $options;
 		protected $applicationInstance;
 
-		function __construct($content, $options) {
-
-			$this->content = $content;
-
-			if (!is_a($options, Arrays::class)) {
-				$options = new Arrays($options);
-			}
+		function __construct($options) {
 			$this->options = $options;
-
 		}
 
 		private function applicationInstance() {
@@ -29,6 +22,12 @@ use Swoole;
 		}
 
 		function sendMail() {
+
+			$phpMailerObj = new PhpMailer(true);
+
+			if (Config::mailer()->deliveryMethod != "mail") {
+
+			}
 
 		}
 
