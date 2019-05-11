@@ -11,18 +11,76 @@ use PHPMailer\PHPMailer\PHPMailer;
 	class Base extends AbstractController {
 
 		use Render;
+		use EmailTags;
 
 		protected $defaults;
 		protected $options;
+		protected $assetHost;
+		protected $urlHost;
+
+		protected static $_interceptors = [];
 
 		function __construct() {
 
 			parent::__construct();
 
+			$this->assetHost = Config::mailer()->assetHost;
+			$this->urlHost = Config::mailer()->urlHost;
+
 			$this->defaults = new Arrays;
-			$this->options = new Arrays;
+			$this->options = new Email;
 
 			$this->initializeTemplating();
+
+		}
+
+		protected function addAttachments($data) {
+
+			$this->options["attachments"] = [];
+			if (!empty($data["attachments"])) {
+				$this->options["attachments"][] = $data["attachments"];
+			}
+			if (!empty($this->defaults["attachments"])) {
+				$this->options["attachments"][] = $this->defaults["attachments"];
+			}
+
+		}
+
+		protected function addBcc($data) {
+
+			if (!empty($data["bcc"])) {
+				$this->options->addBcc($data["bcc"]);
+			}
+			if (!empty($this->defaults["bcc"])) {
+				$this->options->addBcc($this->defaults["bcc"]);
+			}
+
+		}
+
+		protected function addCc($data) {
+
+			if (!empty($data["cc"])) {
+				$this->options->addCc($data["cc"]);
+			}
+			if (!empty($this->defaults["cc"])) {
+				$this->options->addCc($this->defaults["cc"]);
+			}
+
+		}
+
+		protected function addTo($data) {
+
+			if (!empty($data["to"])) {
+				$this->options->addTo($data["to"]);
+			}
+			if (!empty($this->defaults["to"])) {
+				$this->options->addTo($this->defaults["to"]);
+			}
+			else {
+				return false;
+			}
+
+			return true;
 
 		}
 
@@ -33,11 +91,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 				if (empty($this->_content)) {
 
 					$content = $this->mail($response);
-					$this->deliver($content);
+					return $this->deliver($content);
 
 				}
 				else {
-					$this->deliver($this->_content);
+					return $this->deliver($this->_content);
 				}
 
 			}
@@ -54,10 +112,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 		}
 
-		protected function deliver($content) {
+		protected function deliver() {
 
 			$this->_responded = true;
-			return new Delivery($content, $this->options);
+			Base::invokeInterceptors($this);
+
+			return new Delivery($this->options);
 
 		}
 
@@ -65,9 +125,15 @@ use PHPMailer\PHPMailer\PHPMailer;
 			Config::mailer(new Configuration);
 		}
 
-		protected function mail() {
+		static function invokeInterceptors($mailer) {
 
-			$phpMailerObj = new PhpMailer(true);
+			foreach (Base::$_interceptors as $interceptor) {
+				call_user_func_array($interceptor, [$mailer]);
+			}
+
+		}
+
+		protected function mail() {
 
 			$template = false;
 			$data = [];
@@ -90,9 +156,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 			$this->prepareOptions($data);
 
-			$content = $this->renderEmail($template, $data);
-			// $this->conclude($response);
-			$this->_content = $phpMailerObj;
+			if (!empty($data["body"])) {
+				$this->_content = [$data["body"]];
+			}
+			else {
+				$this->renderEmail($template, $data);
+			}
 
 		}
 
@@ -100,25 +169,23 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 			$invalid = [];
 
-			$this->options["to"] = $data["to"] ?? false;
-			if (emty($this->options["to"])) {
-				$invalid[] = "to";
-			}
-
-			$this->options["from"] = $data["from"] ?? $this->defaults["from"] ?? false;
-			if (empty($this->options["from"])) {
+			if (!$this->setFrom($data)) {
 				$invalid[] = "from";
 			}
+			$this->setReplyTo($data);
 
-			$this->options["subject"] = $data["subject"] ?? $this->defaults["subject"] ?? false;
-			if (empty($this->options["subject"])) {
+			$this->options->setSubject($data["subject"] ?? $this->defaults["subject"] ?? false);
+			if (empty($this->options->subject)) {
 				$invalid[] = "subject";
 			}
 
-			$this->options["cc"] = $data["cc"] ?? $this->defaults["cc"] ?? false;
-			$this->options["bcc"] = $data["bcc"] ?? $this->defaults["bcc"] ?? false;
+			if (!$this->addTo($data)) {
+				$invalid[] = "to";
+			}
 
-			$this->options["attachments"] = $data["attachments"] ?? $this->defaults ?? [];
+			$this->addCc($data);
+			$this->addBcc($data);
+			$this->addAttachments($data);
 
 			if (!empty($invalid)) {
 				throw new Exceptions\InsufficientMailerDataException($invalid);
@@ -126,13 +193,14 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 		}
 
-		private function renderEmail($phpMailerObj, $template, $data) {
+		static function registerInterceptor($callback) {
+			Base::$_interceptors[] = $callback;
+		}
 
-			$html = $this->renderHtml($template, $data);
-			if (!empty($html)) {
-				// $phpMailerObj->;
-			}
-			$text = $this->renderText($template, $data);
+		private function renderEmail($template, $data) {
+
+			$this->options->setHtml($this->renderHtml($template, $data));
+			$this->options->setHtml($this->renderText($template, $data));
 
 		}
 
@@ -142,6 +210,31 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 		private function renderText($template, $data) {
 			return $this->render(["partial" => $template.".text", "no_error" => true, "local" => $data]);
+		}
+
+		protected function setFrom($data) {
+
+			if (!empty($data)) {
+				$this->options->setFrom($data["from"]);
+			}
+			elseif (!empty($this->defaults["from"])) {
+
+				if (is_a($this->defaults["from"], Closure::class)) {
+
+					$from = $this->defaults["from"];
+					$from = $from();
+
+				}
+				else {
+					$from = $this->defaults["from"];
+				}
+
+				$this->options->setFrom($this->defaults["from"]);
+
+			}
+
+			return !empty($this->options->from);
+
 		}
 
 	}
