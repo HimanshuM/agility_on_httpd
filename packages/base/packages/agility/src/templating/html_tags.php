@@ -76,7 +76,16 @@ namespace Agility\Templating;
 				foreach ($attributes as $key => $value) {
 
 					if (!in_array($key, ["class", "data"])) {
+
+						if ($key == "src" && !empty($this->assetHost)) {
+							$value = $this->assetHost."/".$value;
+						}
+						elseif ($key == "href" && !empty($this->urlHost)) {
+							$value = $this->urlHost;
+						}
+
 						$attr[] = "$key=\"$value\"";
+
 					}
 
 				}
