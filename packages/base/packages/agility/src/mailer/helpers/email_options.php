@@ -31,7 +31,7 @@ use ArrayUtils\Arrays;
 
 		protected function add($attr, $receipients) {
 
-			if (isset($receipients[0])) {
+			if (is_array($receipients) && isset($receipients[0])) {
 
 				foreach ($receipients as $receipient) {
 					$this->$attr[] = $this->parse($receipint);
@@ -181,26 +181,24 @@ use ArrayUtils\Arrays;
 
 		}
 
-		function setFrom($from, $default) {
+		function setFrom($from) {
 
 			if (!empty($from)) {
 				$this->from = $this->parse($from);
-			}
-			elseif (!empty($default)) {
-				$this->from = $this->parse($default);
 			}
 
 			return $this;
 
 		}
 
-		function setReplyTo($replyTo, $default) {
+		function setHtml($html) {
+			$this->html = $html;
+		}
+
+		function setReplyTo($replyTo) {
 
 			if (!empty($replyTo)) {
 				$this->replyTo = $this->parse($replyTo);
-			}
-			elseif (!empty($default)) {
-				$this->replyTo = $this->parse($default);
 			}
 
 			return $this;
@@ -209,6 +207,10 @@ use ArrayUtils\Arrays;
 
 		function setSubject($subject) {
 			$this->subject = $subject;
+		}
+
+		function setText($text) {
+			$this->text = $text;
 		}
 
 	}
