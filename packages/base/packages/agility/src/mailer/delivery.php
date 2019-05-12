@@ -3,6 +3,7 @@
 namespace Agility\Mailer;
 
 use Agility\Application;
+use Agility\Config;
 use Agility\Chrono\Chronometer;
 use ArrayUtils\Arrays;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -33,6 +34,8 @@ use Swoole;
 			elseif (Config::mailer()->deliveryMethod != "mail") {
 				$phpMailerObj->isSMTP();
 			}
+
+			return $phpMailerObj->send();
 
 		}
 

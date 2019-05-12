@@ -137,8 +137,6 @@ use ArrayUtils\Arrays;
 				$phpMailer->$text = $this->text;
 			}
 
-			return $phpMailer->send();
-
 		}
 
 		protected function fillAttachments($phpMailer) {
