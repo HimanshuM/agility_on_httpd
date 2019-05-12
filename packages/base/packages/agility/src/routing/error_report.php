@@ -15,16 +15,16 @@ use FileSystem\FileSystem;
 			$lines = FileSystem::open($sourceFile)->lines;
 
 			$offset = $e->getLine();
-			if ($offset < 5) {
+			if ($offset < 9) {
 				$offset = 0;
 			}
 			else {
-				$offset -= 5;
+				$offset -= 9;
 			}
 
 			$slicedLines = array_slice($lines, $offset, $e->getLine() - $offset + 10, true);
 
-			return [$sourceFile, $slicedLines, $e->getLine()];
+			return [$sourceFile, $slicedLines, $e->getLine() - 1];
 
 		}
 
