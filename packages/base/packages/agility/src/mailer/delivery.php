@@ -24,9 +24,13 @@ use Swoole;
 		function sendMail() {
 
 			$phpMailerObj = new PhpMailer(true);
+			$this->options->fill($phpMailerObj);
 
-			if (Config::mailer()->deliveryMethod != "mail") {
-
+			if (Config::mailer()->deliveryMethod == "sendmail") {
+				$phpMailerObj->isSendmail();
+			}
+			elseif (Config::mailer()->deliveryMethod != "mail") {
+				$phpMailerObj->isSMTP();
 			}
 
 		}
