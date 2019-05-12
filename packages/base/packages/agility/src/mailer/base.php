@@ -166,7 +166,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 		private function renderEmail($template, $data) {
 
 			$this->options->setHtml($this->renderHtml($template, $data));
-			$this->options->setHtml($this->renderText($template, $data));
+			$this->options->setText($this->renderText($template, $data));
 
 		}
 
