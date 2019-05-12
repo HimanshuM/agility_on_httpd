@@ -183,6 +183,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 			return $this->render(["partial" => $template.".text", "no_error" => true, "local" => $data]);
 		}
 
+		static function with($name, $args = []) {
+			static::invoke($name, $args);
+		}
+
 	}
 
 ?>
