@@ -5,6 +5,7 @@ namespace Agility\Mailer;
 use Agility\Configuration AS Config;
 use Agility\Server\AbstractController;
 use Agility\Templating\Render;
+use Agility\Templating\EmailTags;
 use ArrayUtils\Arrays;
 use PHPMailer\PHPMailer\PHPMailer;
 
