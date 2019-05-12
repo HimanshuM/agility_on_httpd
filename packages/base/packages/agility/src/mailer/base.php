@@ -184,7 +184,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 		}
 
 		static function with($name, $args = []) {
-			static::invoke($name, $args);
+			return static::invoke($name, $args);
 		}
 
 	}
