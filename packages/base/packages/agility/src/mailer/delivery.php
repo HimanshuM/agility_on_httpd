@@ -5,6 +5,7 @@ namespace Agility\Mailer;
 use Agility\Application;
 use Agility\Chrono\Chronometer;
 use ArrayUtils\Arrays;
+use PHPMailer\PHPMailer\PHPMailer;
 use Swoole;
 
 	class Delivery {
