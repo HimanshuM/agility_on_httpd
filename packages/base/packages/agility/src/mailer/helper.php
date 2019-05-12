@@ -2,6 +2,8 @@
 
 namespace Agility\Mailer;
 
+use Closure;
+
 	trait Helper {
 
 		protected function attachment($source, $options = []) {
@@ -18,7 +20,14 @@ namespace Agility\Mailer;
 				$this->options->addBcc($data["bcc"]);
 			}
 			if (!empty($this->defaults["bcc"])) {
-				$this->options->addBcc($this->defaults["bcc"]);
+
+				$bcc = $this->defaults["bcc"];
+				if (is_a($bcc, Closure::class)) {
+					$bcc = $bcc();
+				}
+
+				$this->options->addBcc($bcc);
+
 			}
 
 		}
@@ -29,7 +38,14 @@ namespace Agility\Mailer;
 				$this->options->addCc($data["cc"]);
 			}
 			if (!empty($this->defaults["cc"])) {
-				$this->options->addCc($this->defaults["cc"]);
+
+				$cc = $this->defaults["cc"];
+				if (is_a($cc, Closure::class)) {
+					$cc = $cc();
+				}
+
+				$this->options->addCc($cc);
+
 			}
 
 		}
@@ -40,7 +56,14 @@ namespace Agility\Mailer;
 				$this->options->addTo($data["to"]);
 			}
 			if (!empty($this->defaults["to"])) {
-				$this->options->addTo($this->defaults["to"]);
+
+				$to = $this->defaults["to"];
+				if (is_a($to, Closure::class)) {
+					$to = $to();
+				}
+
+				$this->options->addTo($to);
+
 			}
 			else {
 				return false;
