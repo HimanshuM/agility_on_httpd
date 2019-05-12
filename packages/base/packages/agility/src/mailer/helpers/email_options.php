@@ -1,6 +1,6 @@
 <?php
 
-namespace Agility\Mailer;
+namespace Agility\Mailer\Helpers;
 
 use AttributeHelper\Accessor;
 use ArrayUtils\Arrays;
@@ -58,8 +58,9 @@ use ArrayUtils\Arrays;
 			return $this->add("cc", $cc);
 		}
 
-		function addInlineAttachment($source, $options = []) {
+		function addInlineAttachment($name, $source, $options = []) {
 
+			$options["name"] = $name;
 			$attachment = $this->createAttachment($source, $options);
 
 			$lastContentId = 999;
@@ -70,7 +71,7 @@ use ArrayUtils\Arrays;
 
 			$attachment->contentId = "CID".$lastContentId + 1;
 
-			$this->inlineAttachments[] = $attachment;
+			$this->inlineAttachments[$attachment->name] = $attachment;
 
 			return $attachment;
 
@@ -98,6 +99,67 @@ use ArrayUtils\Arrays;
 			}
 
 			return $attachment;
+
+		}
+
+		function fill($phpMailer) {
+
+			$this->from->fill($phpMailer, "from");
+
+			if (!empty($this->replyTo)) {
+				$this->replyTo->fill($phpMailer, "replyTo");
+			}
+
+			foreach ($this->to as $to) {
+				$to->fill($phpMailer, "to");
+			}
+
+			foreach ($this->cc as $cc) {
+				$cc->fill($phpMailer, "cc");
+			}
+
+			foreach ($this->bcc as $bcc) {
+				$bcc->fill($phpMailer, "bcc");
+			}
+
+			$phpMailer->Subject = $this->subject;
+			$this->fillAttachments($phpMailer);
+
+			$text = "Body";
+			if (!empty($this->html)) {
+
+				$phpMailer->Body = $this->html;
+				$phpMailer->isHTML(true);
+				$text = "AltBody";
+
+			}
+			if (!empty($this->text)) {
+				$phpMailer->$text = $this->text;
+			}
+
+			return $phpMailer->send();
+
+		}
+
+		protected function fillAttachments($phpMailer) {
+
+			foreach ($this->attachments as $attachment) {
+				$attachment->fill($phpMailer);
+			}
+
+			foreach ($this->inlineAttachments as $attachment) {
+				$attachment->fill($phpMailer);
+			}
+
+		}
+
+		function getAttachmentbyName($name) {
+
+			if (!empty($this->inlineAttachments[$name])) {
+				return $this->inlineAttachments[$name];
+			}
+
+			return false;
 
 		}
 
