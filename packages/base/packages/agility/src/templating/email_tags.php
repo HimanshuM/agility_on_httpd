@@ -6,8 +6,8 @@ namespace Agility\Templating;
 
 		function embedImg($src, $width = -1, $height = -1, $options = []) {
 
-			$attachment = $this->options->addInlineAttachment($src, $options);
-			$options["src"] = "cid:".$attachment->contentId;
+			$attachment = $this->attachments($src);
+			$src = $attachment->url();
 			$options["alt"] = $attachment->name;
 
 			return $this->img($src, $options);
