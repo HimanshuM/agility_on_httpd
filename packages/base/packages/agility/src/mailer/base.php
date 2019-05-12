@@ -108,7 +108,21 @@ use PHPMailer\PHPMailer\PHPMailer;
 			$this->prepareOptions($data);
 
 			if (!empty($data["body"])) {
-				$this->_content = [$data["body"]];
+
+				if (is_string($data["body"])) {
+					$this->options->setText($data["body"]);
+				}
+				else {
+
+					if (!empty($data["body"]["html"])) {
+						$this->options->setHtml($data["body"]);
+					}
+					if (!empty($data["body"]["text"])) {
+						$this->options->setText($data["text"]);
+					}
+
+				}
+
 			}
 			else {
 				$this->renderEmail($template, $data);
