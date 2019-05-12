@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 	class Base extends AbstractController {
 
+		use Helper;
 		use Render;
 		use EmailTags;
 
@@ -31,56 +32,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 			$this->options = new Email;
 
 			$this->initializeTemplating();
-
-		}
-
-		protected function addAttachments($data) {
-
-			$this->options["attachments"] = [];
-			if (!empty($data["attachments"])) {
-				$this->options["attachments"][] = $data["attachments"];
-			}
-			if (!empty($this->defaults["attachments"])) {
-				$this->options["attachments"][] = $this->defaults["attachments"];
-			}
-
-		}
-
-		protected function addBcc($data) {
-
-			if (!empty($data["bcc"])) {
-				$this->options->addBcc($data["bcc"]);
-			}
-			if (!empty($this->defaults["bcc"])) {
-				$this->options->addBcc($this->defaults["bcc"]);
-			}
-
-		}
-
-		protected function addCc($data) {
-
-			if (!empty($data["cc"])) {
-				$this->options->addCc($data["cc"]);
-			}
-			if (!empty($this->defaults["cc"])) {
-				$this->options->addCc($this->defaults["cc"]);
-			}
-
-		}
-
-		protected function addTo($data) {
-
-			if (!empty($data["to"])) {
-				$this->options->addTo($data["to"]);
-			}
-			if (!empty($this->defaults["to"])) {
-				$this->options->addTo($this->defaults["to"]);
-			}
-			else {
-				return false;
-			}
-
-			return true;
 
 		}
 
@@ -163,6 +114,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 				$this->renderEmail($template, $data);
 			}
 
+			return $this->_content = $this->options;
+
 		}
 
 		private function prepareOptions($data) {
@@ -185,7 +138,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 			$this->addCc($data);
 			$this->addBcc($data);
-			$this->addAttachments($data);
 
 			if (!empty($invalid)) {
 				throw new Exceptions\InsufficientMailerDataException($invalid);
@@ -210,31 +162,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 		private function renderText($template, $data) {
 			return $this->render(["partial" => $template.".text", "no_error" => true, "local" => $data]);
-		}
-
-		protected function setFrom($data) {
-
-			if (!empty($data)) {
-				$this->options->setFrom($data["from"]);
-			}
-			elseif (!empty($this->defaults["from"])) {
-
-				if (is_a($this->defaults["from"], Closure::class)) {
-
-					$from = $this->defaults["from"];
-					$from = $from();
-
-				}
-				else {
-					$from = $this->defaults["from"];
-				}
-
-				$this->options->setFrom($this->defaults["from"]);
-
-			}
-
-			return !empty($this->options->from);
-
 		}
 
 	}
