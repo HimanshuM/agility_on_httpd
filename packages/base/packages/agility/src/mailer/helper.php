@@ -89,7 +89,7 @@ namespace Agility\Mailer;
 
 		protected function setReplyTo($data) {
 
-			if (!empty($data)) {
+			if (!empty($data["replyTo"])) {
 				$this->options->setFrom($data["replyTo"]);
 			}
 			elseif (!empty($this->defaults["replyTo"])) {
