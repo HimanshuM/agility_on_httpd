@@ -72,6 +72,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 		}
 
+		protected function getRelativeClassName() {
+			return $this->_storableName = $this->_storableName ?: Str::storable(str_replace(["App\\Mailers\\"], "", get_called_class()));
+		}
+
 		static function initialize() {
 			Config::mailer(new Configuration);
 		}
