@@ -3,11 +3,13 @@
 namespace Agility\Mailer;
 
 use Agility\Configuration AS Config;
+use Agility\Mailer\Helpers\EmailOptions;
 use Agility\Server\AbstractController;
 use Agility\Templating\Render;
 use Agility\Templating\EmailTags;
 use ArrayUtils\Arrays;
 use PHPMailer\PHPMailer\PHPMailer;
+use StringHelpers\Str;
 
 	class Base extends AbstractController {
 
@@ -30,7 +32,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 			$this->urlHost = Config::mailer()->urlHost;
 
 			$this->defaults = new Arrays;
-			$this->options = new Email;
+			$this->options = new EmailOptions;
 
 			$this->initializeTemplating();
 
@@ -176,11 +178,11 @@ use PHPMailer\PHPMailer\PHPMailer;
 		}
 
 		private function renderHtml($template, $data) {
-			return $this->render(["partial" => $template.".html", "no_error" => true, "local" => $data]);
+			return $this->render(["partial" => $template.".html", "noError" => true, "local" => $data]);
 		}
 
 		private function renderText($template, $data) {
-			return $this->render(["partial" => $template.".text", "no_error" => true, "local" => $data]);
+			return $this->render(["partial" => $template.".text", "noError" => true, "local" => $data]);
 		}
 
 		static function with($name, $args = []) {
