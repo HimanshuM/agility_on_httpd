@@ -32,7 +32,7 @@ use Agility\Data\Schema\ForeignKeyRelation;
 			"integer"	=> 	["name" => "int", 			"limit" => 11, 		"regex" => '/smallint(\(\d+\))/'],
 			"integer"	=> 	["name" => "int", 			"limit" => 11, 		"regex" => '/mediumint(\(\d+\))/'],
 			"integer"	=> 	["name" => "int", 			"limit" => 11, 		"regex" => '/bigint(\(\d+\))/'],
-			"json"		=>	["name" => "text",			"limit" => "",		"regex" => '/text/'],
+			"json"		=>	["name" => "text",			"limit" => "",		"regex" => '/json/'],
 			"string"	=> 	["name" => "varchar", 		"limit" => 255, 	"regex" => '/varchar(\(\d+\))/'],
 			"text"		=> 	["name" => "text", 			"limit" => 65535, 	"regex" => '/text(\(\d+\))?/'],
 			"timestamp"	=> 	["name" => "timestamp",		"precision" => 0, 	"regex" => '/timestamp(\(\d+\))?/'],
