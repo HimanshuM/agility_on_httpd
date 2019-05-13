@@ -56,7 +56,7 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 		protected function defineDeliveryMethod($name, $value = null) {
 
 			if (is_null($value)) {
-				return $deliveryMethod;
+				return $this->deliveryMethod;
 			}
 
 			if (!in_array($value, ["mail", "sendmail"]) && !is_a($value, Smtp::class)) {
