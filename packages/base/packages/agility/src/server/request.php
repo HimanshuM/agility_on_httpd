@@ -67,6 +67,9 @@ use AttributeHelper\Accessor;
 
 			$this->getParams = new Arrays($_GET);
 			$this->postParams = new Arrays($_POST);
+			if ($this->postParams->exists("_method_") && in_array(strtolower($this->postParams["_method_"]), ["put", "patch"])) {
+				$this->method = strtolower($this->postParams["_method_"]);
+			}
 
 			if (!empty($_COOKIE)) {
 
