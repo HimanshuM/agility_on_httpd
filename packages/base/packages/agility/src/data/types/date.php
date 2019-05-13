@@ -13,7 +13,13 @@ use Agility\Chrono;
 			}
 
 			if (!is_a($value, Chrono\Date::class)) {
+
+				if (is_a($value, Chrono\Chronometer::class)) {
+					return (Chrono\Date)$value;
+				}
+
 				return new Chrono\Date($value);
+
 			}
 
 			return $value;
