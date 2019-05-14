@@ -65,11 +65,8 @@ use Closure;
 				$this->options->addTo($to);
 
 			}
-			else {
-				return false;
-			}
 
-			return true;
+			return !empty($this->options->to);
 
 		}
 
