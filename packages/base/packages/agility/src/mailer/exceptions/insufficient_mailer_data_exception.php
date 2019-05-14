@@ -3,6 +3,7 @@
 namespace Agility\Mailer\Exceptions;
 
 use Exception;
+use StringHelpers\Inflect;
 
 	class InsufficientMailerDataException extends Exception {
 
