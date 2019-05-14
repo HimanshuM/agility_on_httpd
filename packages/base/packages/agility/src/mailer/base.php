@@ -144,17 +144,17 @@ use StringHelpers\Str;
 			$invalid = [];
 
 			if (!$this->setFrom($data)) {
-				$invalid[] = "from";
+				$invalid[] = "'from'";
 			}
 			$this->setReplyTo($data);
 
 			$this->options->setSubject($data["subject"] ?? $this->defaults["subject"] ?? false);
 			if (empty($this->options->subject)) {
-				$invalid[] = "subject";
+				$invalid[] = "'subject'";
 			}
 
 			if (!$this->addTo($data)) {
-				$invalid[] = "to";
+				$invalid[] = "'to'";
 			}
 
 			$this->addCc($data);
