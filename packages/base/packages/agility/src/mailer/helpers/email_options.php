@@ -60,7 +60,6 @@ use ArrayUtils\Arrays;
 
 		function addInlineAttachment($name, $source, $options = []) {
 
-			$options["name"] = $name;
 			$attachment = $this->createAttachment($source, $options);
 
 			$lastContentId = 999;
@@ -71,7 +70,7 @@ use ArrayUtils\Arrays;
 
 			$attachment->contentId = "CID".$lastContentId + 1;
 
-			$this->inlineAttachments[$attachment->name] = $attachment;
+			$this->inlineAttachments[$name] = $attachment;
 
 			return $attachment;
 
