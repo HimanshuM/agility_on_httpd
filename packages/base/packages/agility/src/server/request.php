@@ -96,7 +96,7 @@ use AttributeHelper\Accessor;
 						$this->fileParams[$param] = new Arrays;
 
 						foreach ($value["tmp_name"] as $key => $file) {
-							$this->fileParams[$param][$key] = Upload::prepare($key, Upload::construxtFileArray($key, $value));
+							$this->fileParams[$param][$key] = Upload::prepare($key, Upload::constructFileArray($key, $value));
 						}
 
 					}
