@@ -31,6 +31,16 @@ use AttributeHelper\Accessor;
 
 		}
 
+		static function constructFileArray($param, $file) {
+			return [
+				"name" => $file["name"]["$param"],
+				"tmp_name" => $file["tmp_name"][$param],
+				"size" => $file["size"][$param],
+				"error" => $file["error"][$param],
+				"type" => $file["type"][$param]
+			];
+		}
+
 		static function prepare($fieldName, $fileParams) {
 			return new Upload($fieldName, $fileParams);
 		}
