@@ -10,7 +10,7 @@ namespace Agility\Templating;
 			$src = $attachment->url();
 			$options["alt"] = $attachment->name;
 
-			return $this->img($src, $options);
+			return $this->img($src, $width, $height, $options);
 
 		}
 
