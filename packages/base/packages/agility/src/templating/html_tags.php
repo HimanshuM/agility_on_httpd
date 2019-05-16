@@ -2,6 +2,8 @@
 
 namespace Agility\Templating;
 
+use StringHelpers\Str;
+
 	trait HtmlTags {
 
 		use Navigation;
@@ -17,8 +19,12 @@ namespace Agility\Templating;
 
 				$options["src"] = $src;
 
-				$fileName = Str::componentName($src, "/");
-				$options["alt"] = Str::humanize($fileName);
+				if (!empty($options["alt"])) {
+
+					$fileName = Str::componentName($src, "/");
+					$options["alt"] = Str::humanize($fileName);
+
+				}
 
 			}
 			else if (isset($src["base64"])) {
