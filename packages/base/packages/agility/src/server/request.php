@@ -101,7 +101,7 @@ use AttributeHelper\Accessor;
 
 					}
 					else {
-						$this->fileParams[$key] = Upload::prepare($key, $value);
+						$this->fileParams[$param] = Upload::prepare($param, $value);
 					}
 
 				}
