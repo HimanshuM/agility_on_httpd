@@ -19,6 +19,7 @@ use ArrayUtils\Arrays;
 		protected $text = "";
 		protected $attachments;
 		protected $inlineAttachments;
+		protected $lastContentId = 999;
 
 		function __construct() {
 
@@ -62,13 +63,8 @@ use ArrayUtils\Arrays;
 
 			$attachment = $this->createAttachment($source, $options);
 
-			$lastContentId = 999;
-			$lastInlineAttachment = $this->inlineAttachments->last;
-			if (!empty($lastInlineAttachment)) {
-				$lastContentId = substr($lastInlineAttachment->contentId, 3);
-			}
-
-			$attachment->contentId = "CID".$lastContentId + 1;
+			$this->lastContentId += 1;
+			$attachment->contentId = "CID".$this->lastContentId;
 
 			$this->inlineAttachments[$name] = $attachment;
 
