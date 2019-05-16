@@ -71,7 +71,7 @@ use Closure;
 		}
 
 		protected function inlineAttachment($name, $source, $options = []){
-			$this->options->addInlineAttachments($name, $source, $options);
+			$this->options->addInlineAttachment($name, $source, $options);
 		}
 
 		protected function rawAttachment($name, $source, $options = []){

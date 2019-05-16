@@ -150,7 +150,7 @@ use ArrayUtils\Arrays;
 
 		}
 
-		function getAttachmentbyName($name) {
+		function getAttachmentByName($name) {
 
 			if (!empty($this->inlineAttachments[$name])) {
 				return $this->inlineAttachments[$name];
