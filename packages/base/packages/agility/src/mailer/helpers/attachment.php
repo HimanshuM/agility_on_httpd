@@ -26,7 +26,7 @@ namespace Agility\Mailer\Helpers;
 		}
 
 		function url() {
-			return "CID".$this->contentId;
+			return "cid:".$this->contentId;
 		}
 
 	}
