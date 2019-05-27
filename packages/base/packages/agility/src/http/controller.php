@@ -63,7 +63,7 @@ use Closure;
 			$authenticityToken = $this->formAuthenticityToken();
 			// $this->cookie("_csrf_token_", $authenticityToken);
 
-			$this->tag("meta", ["name" => "csrf-param", "content" => "authenticity-token"]);
+			$this->tag("meta", ["name" => "csrf-param", "content" => "authenticity_token"]);
 			$this->tag("meta", ["name" => "csrf-token", "content" => $authenticityToken]);
 
 		}
