@@ -112,7 +112,7 @@ use StringHelpers\Str;
 		protected static function json() {
 
 			foreach (func_get_args() as $attribute) {
-				static::attribute($attribute, "Json");
+				static::attribute($attribute, "json");
 			}
 
 		}
