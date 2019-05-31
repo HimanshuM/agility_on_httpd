@@ -35,25 +35,36 @@ use Swoole;
 
 		}
 
-		protected static function iterateThroughModels($children) {
+		static function listApplicationModels() {
+			return AppLoader::loadModels(true);
+		}
 
+		protected static function iterateThroughModels($children, $return = false) {
+
+			$models = [];
 			foreach ($children as $model) {
 
 				if ($model->isFile) {
-					AppLoader::tryLoadingModel($model);
+
+					if (($model = AppLoader::tryLoadingModel($model, $return)) != false) {
+						$models[] = $model;
+					}
+
 				}
 				else {
-					AppLoader::iterateThroughModels($model->children);
+					array_merge($models, AppLoader::iterateThroughModels($model->children, $return));
 				}
 
 			}
 
+			return $models;
+
 		}
 
-		static function loadModels() {
+		static function loadModels($return = false) {
 
 			$models = Configuration::documentRoot()->children("app/models");
-			AppLoader::iterateThroughModels($models);
+			return AppLoader::iterateThroughModels($models, $return);
 
 		}
 
@@ -73,7 +84,7 @@ use Swoole;
 
 		}
 
-		protected static function tryLoadingModel($modelFile) {
+		protected static function tryLoadingModel($modelFile, $return = false) {
 
 			$modelClass = substr($modelFile, strpos($modelFile, "app/models/") + strlen("app/models/"), -4);
 			$modelClass = "App\\Models\\".Str::normalize($modelClass);
@@ -81,10 +92,18 @@ use Swoole;
 
 				$classInfo = new ReflectionClass($modelClass);
 				if (!$classInfo->isAbstract() && method_exists($modelClass, "staticInitialize") && is_subclass_of($modelClass, Data\Model::class)) {
+
+					if ($return) {
+						return $modelClass;
+					}
+
 					$modelClass::staticInitialize();
+
 				}
 
 			}
+
+			return false;
 
 		}
 
