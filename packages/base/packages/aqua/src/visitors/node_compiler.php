@@ -4,6 +4,7 @@ namespace Aqua\Visitors;
 
 use Aqua\Accessor;
 use Aqua\Node;
+use Aqua\SqlString;
 use Aqua\Where;
 
 	class NodeCompiler {
@@ -79,7 +80,12 @@ use Aqua\Where;
 				else {
 
 					$query .= "?";
-					$this->_params[/*$this->_buildAttributeValue($node->left)*/] = $node->right;
+					$right = $node->right;
+					if (is_a($right, SqlString::class)) {
+						$right = $right->rawQuery;
+					}
+
+					$this->_params[/*$this->_buildAttributeValue($node->left)*/] = $right;
 
 				}
 
