@@ -24,7 +24,7 @@ use StringHelpers\Str;
 
 		function __construct() {
 
-			$this->params = new Arrays;
+			$this->params = new Parameter;
 
 			$this->notFoundResponse(ACCESSOR_NOT_FOUND_ALLOW);
 			$this->readonly("params");
