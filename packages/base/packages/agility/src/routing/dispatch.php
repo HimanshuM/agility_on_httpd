@@ -116,7 +116,17 @@ use StringHelpers\Str;
 				$controller = $route->namespace.$this->prepareControllerName($route->controller);
 			}
 
-			if (!class_exists($controller)) {
+			try {
+				$controllerFound = class_exists($controller);
+			}
+			catch (Error $e) {
+
+				$this->reportError($e);
+				return [false, false, false];
+
+			}
+
+			if (!$controllerFound) {
 
 				$this->reportError(new Exceptions\ControllerNotFoundException($controller));
 				return [false, false, false];
