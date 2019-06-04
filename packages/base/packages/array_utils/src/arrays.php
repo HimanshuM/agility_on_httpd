@@ -68,8 +68,8 @@ if (!defined("nil")) {
 
 			if (!is_array($arr)) {
 
-				if (is_a($arr, "ArrayUtils\\Arrays")) {
-					$this->_internal = $arr->_internal;
+				if (is_a($arr, Arrays::class)) {
+					$arr = $arr->_internal;
 				}
 				else {
 					$arr = [$arr];
