@@ -2,6 +2,7 @@
 
 namespace App\Controllers<?= $this->namespace; ?>;
 
+use Agility\Http;
 <?= $this->useNamespace(); ?>
 <?php if ($this->scaffold) { ?>
 use App\Models\<?= $this->scaffold; ?>;
