@@ -208,9 +208,9 @@ use StringHelpers\Str;
 			if ($this->parentClass == "ApplicationController" && !empty($this->namespace)) {
 				return "use App\\Controllers\\ApplicationController\n";
 			}
-			else if ($this->parentClass != "ApplicationController") {
-				return "use Agility\\Http\n";
-			}
+			// else if ($this->parentClass != "ApplicationController") {
+			// 	return "use Agility\\Http\n";
+			// }
 
 			return "";
 
