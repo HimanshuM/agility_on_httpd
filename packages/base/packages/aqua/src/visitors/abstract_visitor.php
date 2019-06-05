@@ -398,11 +398,14 @@ use Aqua\Statement;
 
 		protected function _compileValues() {
 
-			if ($this->_statement->valuesType == 1) {
+			if (!empty($this->_statement->values)) {
 				$this->_compileColumnInserts();
 			}
-			else {
+			elseif (!empty($this->_statement->source)) {
 				$this->_compileSelectInserts();
+			}
+			else {
+				throw new Exceptions\EmptyInsertValuesException($this->sanitize($this->_statement->relation->_name));
 			}
 
 		}
