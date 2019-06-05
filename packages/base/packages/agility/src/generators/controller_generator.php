@@ -170,7 +170,7 @@ use StringHelpers\Str;
 
 		protected function _parseOptions($args = []) {
 
-			parent::_parseOptions(["views", "skip-routes"]);
+			parent::_parseOptions(["views", "skip-routes", "scaffold"]);
 			$controllerName = $this->_getFilePathAndControllerClassName($this->_args->shift);
 
 			$this->_identifyParent();
