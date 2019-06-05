@@ -46,6 +46,9 @@ use StringHelpers\Str;
 			if ($this->invalid) {
 				return false;
 			}
+			if (!$this->_dirty) {
+				return false;
+			}
 
 			$this->_runCallbacks("beforeSave");
 
