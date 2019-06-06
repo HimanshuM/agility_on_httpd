@@ -16,7 +16,7 @@ if (!defined("nil")) {
 		use Accessor;
 		use Associations\Builder;
 		use Callbacks\Callback;
-		use Helpers\Dispatch;
+		use Dynamic\Dispatch;
 		use Helpers\Initializer;
 		use Helpers\Inspect;
 		use Persistence\Persist;
