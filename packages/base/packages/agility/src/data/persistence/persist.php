@@ -145,6 +145,7 @@ use StringHelpers\Str;
 			if (!empty($collection)) {
 
 				$this->fillAttributes($collection);
+				$this->_dirty = true;
 				return $this->save();
 
 			}
