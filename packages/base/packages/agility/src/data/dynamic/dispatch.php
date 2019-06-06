@@ -1,14 +1,12 @@
 <?php
 
-namespace Agility\Data\Helpers;
+namespace Agility\Data\Dynamic;
 
 use Agility\Data\Validations;
 use ArrayUtils\Arrays;
 use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 
 	trait Dispatch {
-
-		protected static $_registeredFallbackCallable;
 
 		protected function defaultCallback($name, $value = nil) {
 
@@ -52,12 +50,23 @@ use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 				}
 
 			}
-			else if (static::$_registeredFallbackCallable->exists(static::class)) {
+			else if (static::metaStore()->registeredFallbackCallable->exists(static::class)) {
 
-				$callable = static::$_registeredFallbackCallable[static::class];
-				return $this->$callable($name, $args);
+				$dynamicCall = new Call($args);
+
+				$callables = static::metaStore()->registeredFallbackCallable[static::class];
+				foreach ($callables as $callable) {
+
+					$response = $this->$callable($name, $dynamicCall);
+					if ($dynamicCall->handled()) {
+						return $response;
+					}
+
+				}
 
 			}
+
+			throw new \BadMethodCallException("Method '$name' does not exist on class ".static::class);
 
 		}
 
@@ -102,11 +111,11 @@ use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 
 		protected static function registerFallbackCallable($name) {
 
-			if (empty(static::$_registeredFallbackCallable)) {
-				static::$_registeredFallbackCallable = new Arrays;
+			if (!static::metaStore()->registeredFallbackCallable->exists(static::class)) {
+				static::metaStore()->registeredFallbackCallable[static::class] = new Arrays;
 			}
 
-			static::$_registeredFallbackCallable[static::class] = $name;
+			static::metaStore()->registeredFallbackCallable[static::class][] = $name;
 
 		}
 
