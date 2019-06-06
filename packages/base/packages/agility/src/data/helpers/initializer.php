@@ -99,7 +99,6 @@ use ArrayUtils\Arrays;
 			static::aquaTable();
 
 			// static::generateAttributes();
-			static::$_registeredFallbackCallable = new Arrays;
 			static::initializeAssociations();
 
 			// if (!static::metaStore()->modelInitialized) {

@@ -19,6 +19,7 @@ use AttributeHelper\Accessor;
 		public $scope = false;
 		public $modelInitialized = false;
 		public $validations;
+		public $registeredFallbackCallable;
 
 		function __construct() {
 
@@ -30,6 +31,7 @@ use AttributeHelper\Accessor;
 			$this->accessibleAttributes = new Arrays;
 			$this->protectedAttributes = new Arrays;
 			$this->validations = new Arrays;
+			$this->registeredFallbackCallable = new Arrays;
 			// $this->scope = new Arrays;
 			// $this->modelInitialized = new Arrays;
 
