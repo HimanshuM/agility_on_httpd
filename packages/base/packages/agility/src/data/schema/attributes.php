@@ -135,10 +135,14 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 
 			}
 
-			foreach (static::attributeObjects() as $key => $value) {
+			if ($forcible !== false) {
 
-				if (!$this->attributes->has($key)) {
-					$this->attributes->$key = $value->dataType->unserialize($value->defaultValue);
+				foreach (static::attributeObjects() as $key => $value) {
+
+					if (!$this->attributes->has($key)) {
+						$this->attributes->$key = $value->dataType->unserialize($value->defaultValue);
+					}
+
 				}
 
 			}
