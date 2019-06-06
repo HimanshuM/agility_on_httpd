@@ -26,18 +26,27 @@ use ArrayUtils\Arrays;
 			$this->workflowState = static::_workflow()->first->name;
 		}
 
-		protected function invokeWorkflowEvent($name, $args = []) {
+		protected function invokeWorkflowEvent($name, $args) {
 
 			if (static::_workflow()->states->exists($name)) {
+
+				$args->handled();
 				return $this->workflowState == $name;
+
 			}
 
 			if (($event = $this->_validEvent($name)) !== false) {
+
+				$args->handled();
 				return $event->invoke($this);
+
 			}
 
 			if (static::_workflow()->allEvents->has($name)) {
+
+				$args->handled();
 				throw new Exceptions\InvalidEventException($name, $this->workflowState, static::class);
+
 			}
 
 		}
