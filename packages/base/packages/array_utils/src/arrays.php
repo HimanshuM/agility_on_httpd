@@ -81,6 +81,7 @@ if (!defined("nil")) {
 			$this->_reevaluate();
 
 			$this->methodsAsProperties("all", "array", "count", "empty", "first", "join", "keys", "last", "length", "pop", "shift", "skip", "take", "values");
+			$this->readonly(["toArray", "array"]);
 			$this->notFoundResponse(ACCESSOR_NOT_FOUND_CALLBACK, "fetchByIndex");
 
 		}
