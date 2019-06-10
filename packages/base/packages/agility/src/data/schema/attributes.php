@@ -15,12 +15,13 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 	trait Attributes {
 
 		protected $attributes;
+		private $_backups;
 
 		function addSubObject($name, $object) {
 			$this->attributes->$name = $object;
 		}
 
-		function fetchAttributes($noCasting = true) {
+		function fetchAttributes($noCasting = true, $modifiedOnly = false) {
 
 			if ($noCasting) {
 				return $this->attributes->toArray;
@@ -33,6 +34,10 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 			// save() would still try to write it to the table, which would fail
 			$collection = $this->attributes->toArray;
 			foreach ($collection as $name => $value) {
+
+				if ($modifiedOnly && !$this->_backups->exists($name) && $name != static::$primaryKey) {
+					continue;
+				}
 
 				if (static::generatedAttributes()[$name]->onUpdate == "CURRENT_TIMESTAMP") {
 					continue;
@@ -131,6 +136,9 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 					throw new AttributeDoesNotExistException($name, static::class);
 				}
 
+				if ($forcible !== false) {
+					$this->_backups[$name] = $value;
+				}
 				$this->attributes->$name = $value;
 
 			}
@@ -188,8 +196,14 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 
 			if (!$this->attributes->has($name) || ($this->attributes->has($name) && $this->attributes->$name != $value)) {
 
+				if (static::generatedAttributes()->exists($name) && $this->attributes->has($name)) {
+
+					$this->_backups[$name] = $this->attributes->$name;
+					$this->_dirty = true;
+
+				}
+
 				$this->attributes->$name = $value;
-				$this->_dirty = true;
 
 			}
 
