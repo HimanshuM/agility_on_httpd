@@ -15,6 +15,10 @@ namespace Agility\Data\Dynamic;
 			return $this->handled = true;
 		}
 
+		function isHandled() {
+			return $this->handled;
+		}
+
 	}
 
 ?>

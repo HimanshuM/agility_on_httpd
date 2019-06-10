@@ -58,7 +58,7 @@ use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 				foreach ($callables as $callable) {
 
 					$response = $this->$callable($name, $dynamicCall);
-					if ($dynamicCall->handled()) {
+					if ($dynamicCall->isHandled()) {
 						return $response;
 					}
 
