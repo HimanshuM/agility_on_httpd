@@ -36,7 +36,7 @@ use Swoole;
 
 		}
 
-		protected function _runCallbacks($callback) {
+		protected function _runCallbacks($callback, $args = []) {
 
 			if (static::_theseCallbacks()->exists($callback)) {
 
@@ -44,24 +44,20 @@ use Swoole;
 
 					if (is_array($callback->callback)) {
 
-						if (!$callback->async) {
-							call_user_func_array($callback->callback, $this);
+						if (!empty($args)) {
+							$args = [$this, $args];
 						}
 						else {
-
-							$t = $this;
-							$callback = $callback->callback;
-							Swoole\Event::defer(function() use($callback, $t) {
-								$callback($t);
-							});
-
+							$args = $this;
 						}
+
+						call_user_func_array($callback->callback, $args);
 
 					}
 					else {
 
 						$callback = $callback->callback;
-						$this->$callback();
+						$this->$callback($args);
 
 					}
 
