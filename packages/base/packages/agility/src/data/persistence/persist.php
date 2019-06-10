@@ -46,7 +46,7 @@ use StringHelpers\Str;
 			if ($this->invalid) {
 				return false;
 			}
-			if (!$this->_dirty) {
+			if (!$this->_dirty && !$this->_fresh) {
 				return false;
 			}
 
