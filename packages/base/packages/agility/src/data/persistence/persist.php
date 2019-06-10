@@ -121,9 +121,9 @@ use StringHelpers\Str;
 
 		private function _update() {
 
-			$this->_runCallbacks("beforeUpdate");
+			$this->_runCallbacks("beforeUpdate", $this->_backups);
 
-			$attributes = $this->fetchAttributes(false);
+			$attributes = $this->fetchAttributes(false, true);
 			$primaryKey = $attributes[static::$primaryKey];
 			unset($attributes[static::$primaryKey]);
 
@@ -135,7 +135,7 @@ use StringHelpers\Str;
 			$this->_dirty = false;
 			$this->_persisted = true;
 
-			$this->_runCallbacks("afterUpdate");
+			$this->_runCallbacks("afterUpdate", $this->_backups);
 			return true;
 
 		}
