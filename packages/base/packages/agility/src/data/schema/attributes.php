@@ -21,6 +21,10 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 			$this->attributes->$name = $object;
 		}
 
+		function backups() {
+			return $this->_backups;
+		}
+
 		function fetchAttributes($noCasting = true, $modifiedOnly = false) {
 
 			if ($noCasting) {
