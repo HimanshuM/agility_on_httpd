@@ -58,6 +58,7 @@ use StringHelpers\Str;
 			else {
 				$result = $this->_update();
 			}
+			$this->_backups = new Arrays;
 
 			$this->_runCallbacks("afterSave");
 			return $result;
