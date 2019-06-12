@@ -209,6 +209,31 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 
 		}
 
+		private static function deriveValue($value) {
+
+			$derived = true;
+			if (is_a($value, Model::class)) {
+				$value = $value->valueOfPrimaryKey();
+			}
+			else if (is_a($value, Relation::class) || is_a($value, Scope::class)) {
+
+				$value = $value->first;
+				if (empty($value)) {
+					$value = null;
+				}
+				else if (is_a($value, Model::class)) {
+					$value = $value->valueOfPrimaryKey();
+				}
+				else {
+					$derived = false;
+				}
+
+			}
+
+			return [$value, $derived];
+
+		}
+
 	}
 
 ?>
