@@ -196,9 +196,13 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 
 			if (!$this->attributes->has($name) || ($this->attributes->has($name) && $this->attributes->$name != $value)) {
 
-				if (static::generatedAttributes()->exists($name) && $this->attributes->has($name)) {
+				if (static::generatedAttributes()->exists($name)) {
 
-					$this->_backups[$name] = $this->attributes->$name;
+					$this->_backups[$name] = null;
+					if ($this->attributes->has($name)) {
+						$this->_backups[$name] = $this->attributes->$name;
+					}
+
 					$this->_dirty = true;
 
 				}
