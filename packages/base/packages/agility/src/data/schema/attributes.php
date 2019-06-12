@@ -43,22 +43,9 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 					continue;
 				}
 
-				if (is_a($value, Model::class)) {
-					$value = $value->valueOfPrimaryKey();
-				}
-				else if (is_a($value, Relation::class) || is_a($value, Scope::class)) {
-
-					$value = $value->first;
-					if (empty($value)) {
-						$value = null;
-					}
-					else if (is_a($value, Model::class)) {
-						$value = $value->valueOfPrimaryKey();
-					}
-					else {
-						throw new InvalidTypeException(static::class."::$name", static::generatedAttributes()[$name]->dataType);
-					}
-
+				list($value, $derived) = static::deriveValue($value);
+				if (!$derived) {
+					throw new InvalidTypeException(static::class."::$name", static::generatedAttributes()[$name]->dataType);
 				}
 
 				if (isset(static::attributeObjects()[$name])) {
@@ -105,22 +92,9 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 					$this->_fresh = false;
 				}
 
-				if (is_a($value, Model::class)) {
-					$value = $value->valueOfPrimaryKey();
-				}
-				else if (is_a($value, Relation::class) || is_a($value, Scope::class)) {
-
-					$value = $value->first;
-					if (empty($value)) {
-						$value = null;
-					}
-					else if (is_a($value, Model::class)) {
-						$value = $value->valueOfPrimaryKey();
-					}
-					else {
-						throw new InvalidTypeException(static::class."::$name", static::generatedAttributes()[$name]->dataType);
-					}
-
+				list($value, $derived) = static::deriveValue($value);
+				if (!$derived) {
+					throw new InvalidTypeException(static::class."::$name", static::generatedAttributes()[$name]->dataType);
 				}
 
 				if (isset(static::attributeObjects()[$name])) {
