@@ -11,6 +11,7 @@ use ArrayUtils\Arrays;
 		private $_afterAction = null;
 		private $_allBeforeActionTriggers = null;
 		private $_allAfterActionTriggers = null;
+		private $_triggerBreaker = null;
 
 		private function _addAllTrigger($trigger, $method, $except = []) {
 
@@ -85,6 +86,10 @@ use ArrayUtils\Arrays;
 			$this->_addTrigger("_beforeAction", $trigger, array_slice(func_get_args(), 1));
 		}
 
+		function breakTriggersIf($prop) {
+			$this->_triggerBreaker = $prop;
+		}
+
 		private function _initializeMethodTriggers() {
 
 			if (is_null($this->_beforeAction)) {
@@ -116,6 +121,11 @@ use ArrayUtils\Arrays;
 				$this->_invokeAllTriggers($this->_allBeforeActionTriggers, $action);
 			}
 
+			$prop = $this->_triggerBreaker;
+			if ($this->$prop) {
+				return;
+			}
+
 			if ($this->$trigger->exists($action)) {
 				$this->_invokeTriggers($this->$trigger[$action]);
 			}
@@ -131,7 +141,13 @@ use ArrayUtils\Arrays;
 			foreach ($trigger as $method => $except) {
 
 				if (!in_array($action, $except)) {
+
 					$this->$method();
+					$prop = $this->_triggerBreaker;
+					if ($this->$prop) {
+						return;
+					}
+
 				}
 
 			}
@@ -140,10 +156,15 @@ use ArrayUtils\Arrays;
 
 		private function _invokeTriggers($triggers) {
 
-			$t = $this;
-			$triggers->map(function ($m) use ($t) {
-				$t->$m();
-			});
+			foreach ($triggers as $method) {
+
+				$this->$method();
+				$prop = $this->_triggerBreaker;
+				if ($this->$prop) {
+					return;
+				}
+
+			};
 
 		}
 
