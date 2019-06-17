@@ -26,8 +26,24 @@ use StringHelpers\Str;
 			// 	}
 
 			// }
+
 			foreach (Configuration::documentRoot()->children("config/initializers/") as $initializer) {
 				require_once $initializer;
+			}
+
+			static::executeEnvironmentInitializers();
+
+		}
+
+		static function executeEnvironmentInitializers() {
+
+			$envPath = "config/".Configuration::environment();
+			if (Configuration::documentRoot()->has($envPath)) {
+
+				foreach (Configuration::documentRoot()->children($envPath) as $initializer) {
+					require_once $initializer;
+				}
+
 			}
 
 		}
