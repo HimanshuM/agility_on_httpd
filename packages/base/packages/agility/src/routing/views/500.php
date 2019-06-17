@@ -88,7 +88,7 @@
 		<?php foreach ($trace as $line) { ?>
 			<div class="row">
 				<div class="line"><?= ($line["class"] ?? "").($line["type"] ?? "").$line["function"]; ?>()</div>
-				<div class="line"><?= ($line["file"] ?? "<internal>").":".($line["line"] ?? "<internal>"); ?></div>
+				<div class="line"><?= ($line["file"] ?? "&#60;php:internal&#62;").(!empty($line["line"]) ? ":".$line["line"] : ""); ?></div>
 			</div>
 		<?php } ?>
 	</div>
