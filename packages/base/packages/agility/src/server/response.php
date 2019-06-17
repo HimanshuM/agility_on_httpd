@@ -11,6 +11,7 @@ use Phpm\Exceptions\ClassExceptions\MethodNotFoundException;
 		protected $response;
 		public $cookies = [];
 		protected $cookiesWritten = false;
+		protected $status = 200;
 
 		function header($key, $value) {
 			header($key.": ".$value);
@@ -90,13 +91,14 @@ use Phpm\Exceptions\ClassExceptions\MethodNotFoundException;
 
 		function write($response) {
 
+			header("HTTP/1.1 ".$this->status);
 			$this->sendCookies();
 			echo $response;
 
 		}
 
 		function status($status = 200) {
-			header("HTTP/1.1 ".$status);
+			$this->status = $status;
 		}
 
 	}
