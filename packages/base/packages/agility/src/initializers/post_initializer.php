@@ -37,7 +37,7 @@ use StringHelpers\Str;
 
 		static function executeEnvironmentInitializers() {
 
-			$envPath = "config/".Configuration::environment();
+			$envPath = "config/environments/".Configuration::environment();
 			if (Configuration::documentRoot()->has($envPath)) {
 
 				foreach (Configuration::documentRoot()->children($envPath) as $initializer) {
