@@ -59,7 +59,7 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 				return $this->deliveryMethod;
 			}
 
-			if (!in_array($value, ["mail", "sendmail"]) && !is_a($value, Smtp::class)) {
+			if (!in_array($value, ["mail", "sendmail", "none"]) && !is_a($value, Smtp::class)) {
 				throw new InvalidTypeException("Configuration::mailer()->deliveryMethod", ["sendmail", "Smtp"]);
 			}
 
