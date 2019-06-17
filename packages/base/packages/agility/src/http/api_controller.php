@@ -81,16 +81,16 @@ use StringHelpers\Str;
 
 			}
 
-			if (isset($response["html"])) {
-
-				$this->response->header("Content-Type", "text/html");
-				$this->response->write($response["html"]);
-
-			}
-			else if (isset($response["json"])) {
+			if (isset($response["json"])) {
 
 				$this->response->header("Content-Type", "application/json");
 				$this->response->write($response["json"]);
+
+			}
+			else {
+
+				$this->response->header("Content-Type", "text/html");
+				$this->response->write($response["html"] ?? "");
 
 			}
 
