@@ -69,7 +69,7 @@ use App\Models\<?= $this->scaffold; ?>;
 <?= $this->renderMethods(); ?>
 <?php if ($this->scaffold) {?>
 		protected function set<?= $this->scaffold; ?>() {
-			$this-><?= $this->scaffoldObject; ?> = <?= $this->scaffold; ?>::find($this->params["id"]);
+			$this-><?= $this->scaffoldObject; ?> = <?= $this->scaffold; ?>::fetch($this->params["id"]);
 		}
 
 		protected function <?= $this->scaffoldObject; ?>Params() {
