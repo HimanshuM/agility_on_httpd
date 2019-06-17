@@ -28,6 +28,7 @@ use StringHelpers\Str;
 
 			$this->notFoundResponse(ACCESSOR_NOT_FOUND_ALLOW);
 			$this->readonly("params");
+			$this->breakTriggersIf("_responded");
 
 		}
 
