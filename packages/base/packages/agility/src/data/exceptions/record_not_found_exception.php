@@ -6,11 +6,17 @@ use Exception;
 
 	class RecordNotFoundException extends Exception {
 
-		function __construct($column, $value) {
+		function __construct($model = "", $column = "", $value = "") {
 
-			$msg = "Record with $column $value not found";
-			if (is_array($value)) {
-				$msg = "Records with $column (".implode(", ", $value).") not found";
+			$msg = "Record not found";
+			if (!empty($model)) {
+
+				$model = str_replace("App\\Models\\", "", $model);
+				$msg = "Could not find $model with '$column' = $value";
+				if (is_array($value)) {
+					$msg = "Could not find $model with '$column' in (".implode(", ", $value).")";
+				}
+
 			}
 
 			parent::__construct($msg);
