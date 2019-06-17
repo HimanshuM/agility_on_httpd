@@ -49,14 +49,20 @@ use Agility\Data\Relation;
 
 			$value = Relation::resolveSearchValue($value);
 			if (!is_array($value)) {
+
 				$result = static::where(static::aquaTable()->$column->eq($value))->first;
+				if (empty($result)) {
+					throw new RecordNotFoundException(static::class, $column, $value);
+				}
+
 			}
 			else {
-				$result = static::where(static::aquaTable()->$column->in($value))->all;
-			}
 
-			if (empty($result) || $result->empty) {
-				throw new RecordNotFoundException($column, $value);
+				$result = static::where(static::aquaTable()->$column->in($value))->all;
+				if ($result->empty) {
+					throw new RecordNotFoundException(static::class, $column, $value);
+				}
+
 			}
 
 			return $result;
