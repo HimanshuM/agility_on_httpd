@@ -2,6 +2,7 @@
 
 namespace Agility\Data\Relations;
 
+use Agility\Data\Exceptions\RecordNotFoundException;
 use Agility\Data\Helpers\NameHelper;
 use Agility\Data\Relation;
 
@@ -16,10 +17,17 @@ use Agility\Data\Relation;
 			return (static::initializeRelation())->all;
 		}
 
+		// Return false on object not found
 		static function find($id) {
 			return static::findBy(static::$primaryKey, $id);
 		}
 
+		// Throws RecordNotFoundException on object not found
+		static function fetch($id) {
+			return static::fetchBy(static::$primaryKey, $id);
+		}
+
+		// Return false or empty array on object(s) not found
 		static function findBy($column, $value) {
 
 			$column = NameHelper::getStorableName($column);
@@ -31,6 +39,27 @@ use Agility\Data\Relation;
 			else {
 				return static::where(static::aquaTable()->$column->in($value))->all;
 			}
+
+		}
+
+		// Throws RecordNotFoundException on object(s) not found
+		static function fetchBy($column, $value) {
+
+			$column = NameHelper::getStorableName($column);
+
+			$value = Relation::resolveSearchValue($value);
+			if (!is_array($value)) {
+				$result = static::where(static::aquaTable()->$column->eq($value))->first;
+			}
+			else {
+				$result = static::where(static::aquaTable()->$column->in($value))->all;
+			}
+
+			if (empty($result) || $result->empty) {
+				throw new RecordNotFoundException($column, $value);
+			}
+
+			return $result;
 
 		}
 
