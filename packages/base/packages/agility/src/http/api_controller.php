@@ -3,7 +3,14 @@
 namespace Agility\Http;
 
 use Agility\Config;
+use Agility\Data\Exceptions\RecordNotFoundException;
+use Agility\Data\Model;
+use Agility\Routing\Dispatch;
 use Agility\Server\AbstractController;
+use Agility\Server\Exceptions\ParameterMissingException;
+use ArrayUtils\Arrays;
+use StringHelpers\Inflect;
+use StringHelpers\Str;
 
 	class ApiController extends AbstractController {
 
@@ -16,7 +23,10 @@ use Agility\Server\AbstractController;
 		protected $_status = 200;
 
 		function __construct() {
+
 			parent::__construct();
+			$this->setDefaultRescuers();
+
 		}
 
 		protected function conclude($response) {
@@ -88,6 +98,21 @@ use Agility\Server\AbstractController;
 
 		function respond404($msg = []) {
 			$this->respond($msg, 404);
+		}
+
+		protected function rescueFrom($exception, $with) {
+			Dispatch::rescueFrom($exception, [$this, $with]);
+		}
+
+		private function setDefaultRescuers() {
+
+			$this->rescueFrom(RecordNotFoundException::class, function($exception, $response) {
+				$response->status(404);
+			});
+			$this->rescueFrom(ParameterMissingException::class, function($exception, $response) {
+				$response->status = $exception->httpStatus;
+			});
+
 		}
 
 	}
