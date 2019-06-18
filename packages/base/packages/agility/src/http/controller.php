@@ -60,10 +60,13 @@ use Closure;
 				return;
 			}
 
-			$authenticityToken = $this->formAuthenticityToken();
-			// $this->cookie("_csrf_token_", $authenticityToken);
+			if (empty(Config::http()->csrfTokenName)) {
+				throw new Security\CsrfTokenNameEmptyException;
+			}
 
-			$this->tag("meta", ["name" => "csrf-param", "content" => "authenticity_token"]);
+			$authenticityToken = $this->formAuthenticityToken();
+
+			$this->tag("meta", ["name" => "csrf-param", "content" => Config::http()->csrfTokenName]);
 			$this->tag("meta", ["name" => "csrf-token", "content" => $authenticityToken]);
 
 		}
@@ -131,11 +134,11 @@ use Closure;
 			if ($this->session->exists("csrfToken")) {
 
 				$token = "";
-				if ($this->params->exists("_csrf_token_")) {
-					$token = $this->params["_csrf_token_"];
+				if ($this->params->exists(Config::http()->csrfTokenName)) {
+					$token = $this->params[Config::http()->csrfTokenName];
 				}
-				else if ($this->params->exists("authenticity_token")) {
-					$token = $this->params["authenticity_token"];
+				else {
+					throw new Security\InvalidAuthenticityTokenException(static::class, $this->methodInvoked);
 				}
 
 				if ($token != $this->session["csrfToken"]) {

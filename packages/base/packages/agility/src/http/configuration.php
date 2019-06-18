@@ -12,6 +12,7 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 		use Accessor;
 
 		protected $concludeOnRespondedByBeforeTrigger = true;
+		public $csrfTokenName = "authenticity_token";
 
 		function __construct() {
 			$this->methodsAsProperties();
