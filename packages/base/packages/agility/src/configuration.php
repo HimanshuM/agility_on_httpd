@@ -88,7 +88,7 @@ use ArrayUtils\Arrays;
 
 				foreach ($this->_listeners[$setting] as $listener) {
 
-					$value = call_user_func_array($listener, [$setting, $value]);
+					$value = call_user_func_array($listener[0], [$setting, $value]);
 
 					// If listener is the creator, we allow the listener to modify the new value
 					if ($listener[1]) {
