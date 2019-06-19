@@ -168,6 +168,11 @@ use Phpm\Exceptions\TypeExceptions\InvalidTypeException;
 
 		private function _setAttribute($name, $value) {
 
+			list($value, $derived) = $this->deriveValue($value);
+			if (!$derived) {
+				throw new InvalidTypeException(static::class."::$name", static::generatedAttributes()[$name]->dataType);
+			}
+
 			if (isset(static::attributeObjects()[$name])) {
 				$value = static::attributeObjects()[$name]->dataType->cast($value);
 			}
