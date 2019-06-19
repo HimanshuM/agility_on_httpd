@@ -3,6 +3,7 @@
 namespace Agility\Logger;
 
 use Agility\Configuration;
+use FileSystem\File;
 use Phpm\Exceptions\ClassExceptions\ClassNotFoundException;
 use Phpm\Exceptions\MethodExceptions\InvalidArgumentTypeException;
 
