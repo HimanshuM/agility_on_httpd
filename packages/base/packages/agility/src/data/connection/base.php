@@ -21,7 +21,7 @@ use PDO;
 				$this->prefix = $connectionArray["prefix"];
 			}
 			if (!empty($connectionArray["suffix"])) {
-				$this->prefix = $connectionArray["suffix"];
+				$this->suffix = $connectionArray["suffix"];
 			}
 
 		}
