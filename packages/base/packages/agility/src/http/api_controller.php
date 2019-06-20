@@ -151,7 +151,7 @@ use StringHelpers\Str;
 				$response->status(404);
 			});
 			$this->rescueFrom(ParameterMissingException::class, function($exception, $response) {
-				$response->status = $exception->httpStatus;
+				$response->status($exception->httpStatus);
 			});
 
 		}
