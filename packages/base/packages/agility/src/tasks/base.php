@@ -21,7 +21,8 @@ use Agility\Console\Helpers\EchoHelper;
 		}
 
 		protected function ask($prompt) {
-			return readline($prompt." ");
+			echo $prompt." ";
+			return readline();
 		}
 
 		protected function parseOptions($args) {
