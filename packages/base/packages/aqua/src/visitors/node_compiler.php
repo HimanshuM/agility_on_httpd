@@ -77,13 +77,16 @@ use Aqua\Where;
 					$this->_params = array_merge($this->_params, $node->right);
 
 				}
+				else if (is_a($node->right, SqlString::class)) {
+					$query .= $node->right->rawQuery;
+				}
 				else {
 
 					$query .= "?";
 					$right = $node->right;
-					if (is_a($right, SqlString::class)) {
-						$right = $right->rawQuery;
-					}
+					// if (is_a($right, SqlString::class)) {
+					// 	$right = $right->rawQuery;
+					// }
 
 					$this->_params[/*$this->_buildAttributeValue($node->left)*/] = $right;
 
