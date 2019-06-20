@@ -470,9 +470,9 @@ use StringHelpers\Str;
 				elseif (is_a($value, DateTime::class)) {
 					$value = $value->format("Y-m-d H:i:s");
 				}
-				elseif (is_null($value)) {
-					$value = Types\Raw::sql("NULL");
-				}
+				// elseif (is_null($value)) {
+				// 	$value = Types\Raw::sql("NULL");
+				// }
 
 				return $value;
 
@@ -582,6 +582,9 @@ use StringHelpers\Str;
 						$value = Relation::resolveSearchValue($value);
 						if (is_array($value)) {
 							$this->_statement->where($this->_aquaTable->$col->in($value));
+						}
+						elseif (is_null($value)) {
+							$this->_statement->where($this->_aquaTable->$col->isNull());
 						}
 						else {
 							$this->_statement->where($this->_aquaTable->$col->eq($value));
