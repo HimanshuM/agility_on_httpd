@@ -125,6 +125,10 @@ use Closure;
 
 		}
 
+		function respond404() {
+			parent::respond404(["html" => file_get_contents("404.html")]);
+		}
+
 		protected function validateAuthenticityToken() {
 
 			if (!$this->forgeryProtection || $this->request->get || $this->request->options) {
