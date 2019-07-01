@@ -452,7 +452,7 @@ use StringHelpers\Str;
 		// or returns the value as it is.
 		static function resolveSearchValue($value) {
 
-			if (is_array($value)) {
+			if (is_array($value) || is_a($value, Arrays::class)) {
 
 				$return = [];
 				foreach ($value as $each) {
