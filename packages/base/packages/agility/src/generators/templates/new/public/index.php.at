@@ -1,8 +1,8 @@
-<?php
+<?= $this->phpTagOpen(); ?>
 
 	define ("APP_PATH", realpath(__DIR__."/../config/application.php"));
 
 	$server = new Agility\Console\Commands\ServerCommand;
 	$server->perform([]);
 
-?>
+<?= $this->phpTagClose(); ?>

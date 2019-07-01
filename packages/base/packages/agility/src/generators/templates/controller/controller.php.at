@@ -17,7 +17,7 @@ use App\Models\<?= $this->scaffold; ?>;
 		function __construct() {
 			parent::__construct();
 <?php if ($this->scaffold) { ?>
-			$this->beforeAction("set<?= $this->scaffold; ?>", ["show", "edit", update", "delete"]);
+			$this->beforeAction("set<?= $this->scaffold; ?>", ["show", "edit", "update", "delete"]);
 <?php } ?>
 		}
 
