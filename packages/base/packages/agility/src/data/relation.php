@@ -164,7 +164,7 @@ use StringHelpers\Str;
 		protected function defaultCallback($name, $args = []) {
 
 			$index = static::getIndex($name);
-			if ($index !== false) {
+			if ($index !== false && $index > -1) {
 
 				$index -= 1;
 				return $this->range($index, 1)->first;
@@ -172,6 +172,9 @@ use StringHelpers\Str;
 			}
 			else if (strpos($name, "findBy") === 0) {
 				return $this->findByResolver(substr($name, strlen("findBy")), $args);
+			}
+			else {
+				return $this->first->$name(...$args);
 			}
 
 		}
