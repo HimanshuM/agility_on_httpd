@@ -161,8 +161,9 @@ use StringHelpers\Str;
 
 				if (!empty($file404 = Configuration::document404())) {
 
-					Log::info("Redirecting to 404.html");
-					$this->response->redirect("/".$file404);
+					Log::info("Rendering 404.html");
+					$this->response->status(404);
+					$this->response->respond(file_get_contents($file404));
 
 				}
 				else {
