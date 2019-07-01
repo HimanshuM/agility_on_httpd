@@ -65,6 +65,15 @@ use StringHelpers\Str;
 			$this->echo("Installing composer locally...\n");
 
 			$downloadPath = $this->_appRoot->touch("tmp/composer-setup.php");
+			if (empty($downloadPath)) {
+
+				$this->echo("#Red##B#Failed to download composer:#N# could not create temporary file in tmp/.\n");
+				$this->echo("Please install manually from https://getcomposer.org\n");
+
+				return -1;
+
+			}
+
 			$installPath = $this->_appRoot."/bin";
 
 			$signature = trim(file_get_contents("https://composer.github.io/installer.sig"));
