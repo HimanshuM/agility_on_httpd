@@ -10,6 +10,7 @@ use Agility\Routing\Routes;
 use Agility\Server\StaticContent;
 use ArrayUtils\Arrays;
 use AttributeHelper\Accessor;
+use Error;
 use Exception;
 use StringHelpers\Str;
 
@@ -139,6 +140,9 @@ use StringHelpers\Str;
 				$this->prepareApplication();
 			}
 			catch (Exception $e) {
+				$this->reportError($e, true);
+			}
+			catch (Error $e) {
 				$this->reportError($e, true);
 			}
 
