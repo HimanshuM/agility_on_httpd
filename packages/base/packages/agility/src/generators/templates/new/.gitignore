@@ -10,6 +10,9 @@ tmp/*
 !log/.keep
 !tmp/.keep
 
+# Ignore config files
+config/database.json
+
 # Ignore uploaded files in development
 storage/*
 !storage/.keep
