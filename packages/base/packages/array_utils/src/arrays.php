@@ -80,7 +80,7 @@ if (!defined("nil")) {
 			$this->_internal = $arr;
 			$this->_reevaluate();
 
-			$this->methodsAsProperties("all", "array", "count", "empty", "first", "join", "keys", "last", "length", "pop", "shift", "skip", "take", "values");
+			$this->methodsAsProperties("all", "array", "count", "empty", "first", "join", "keys", "last", "length", "pop", "shift", "skip", "take", "unique", "values");
 			$this->readonly(["toArray", "array"]);
 			$this->notFoundResponse(ACCESSOR_NOT_FOUND_CALLBACK, "fetchByIndex");
 
@@ -499,6 +499,10 @@ if (!defined("nil")) {
 
 		function take($length) {
 			return $this->firstFew($length);
+		}
+
+		function unique($flag = SORT_STRING) {
+			return new Arrays(array_unique($this->_internal, $flags));
 		}
 
 		function values() {
