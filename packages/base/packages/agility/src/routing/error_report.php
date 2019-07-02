@@ -70,7 +70,7 @@ use FileSystem\FileSystem;
 
 			if (Configuration::environment() != "development") {
 
-				Log::error($exception->getMessage(), $exception->getTrace());
+				Log::error($exception);
 				$response->respond("");
 
 			}
