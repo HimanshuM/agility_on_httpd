@@ -138,11 +138,11 @@ use StringHelpers\Str;
 
 					}
 
-					$this->_statement->join($with, $type);
+					$this->_statement->join(new Table($with), $type);
 					$this->_setDefaultOnClause(empty($source) ? $this->_statement->relation->_name : $source, $with);
 
 					if (!empty($subJoins)) {
-						$this->join($subJoins, $type, $with);
+						$this->_buildJoinSequence($subJoins, $type, $with);
 					}
 
 				}
@@ -150,7 +150,7 @@ use StringHelpers\Str;
 			}
 			else {
 
-				$this->_statement->join($table, $type);
+				$this->_statement->join(new Table($table), $type);
 				$this->_setDefaultOnClause(empty($source) ? $this->_statement->relation->_name : $source, $table);
 
 			}
