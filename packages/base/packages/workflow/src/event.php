@@ -27,11 +27,11 @@ use Closure;
 
 				}
 
-				$this->save();
+				return $this->save();
 
 			};
 
-			($closure->bindTo($object, $object))($this->transitionsTo, $this->action);
+			return ($closure->bindTo($object, $object))($this->transitionsTo, $this->action);
 
 		}
 
