@@ -29,7 +29,7 @@ use Agility\Routing\Exceptions\CallbackNotSpecifiedException;
 
 			$options["namespace"] = $name;
 			if (!isset($options["path"])) {
-				$options["path"] = $name;
+				$options["path"] = $this->pathPrefix.$name;
 			}
 
 			return $this->processSubRoutes($options, $callback);
