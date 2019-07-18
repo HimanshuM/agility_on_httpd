@@ -52,6 +52,9 @@ use StringHelpers\Str;
 
 		function firstStageInitialization() {
 
+			$this->setupApplicationAutoloader();
+			$this->setupComposerAutoloader();
+
 			try {
 				$this->executePreInitializers();
 			}
@@ -81,8 +84,6 @@ use StringHelpers\Str;
 
 		protected function initializeComponents() {
 
-			$this->setupApplicationAutoloader();
-			$this->setupComposerAutoloader();
 			$this->initializeLogging();
 			$this->initializeDatabase();
 			$this->initializeRouting();
