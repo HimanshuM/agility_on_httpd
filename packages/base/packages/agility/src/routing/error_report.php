@@ -68,6 +68,11 @@ use FileSystem\FileSystem;
 				$this->invokeRescuer($exception, $response);
 			}
 
+			$context = [];
+			if (!empty($this->request)) {
+				$context[] = $this->request;
+			}
+
 			if (Configuration::environment() != "development") {
 
 				Log::error($exception);
