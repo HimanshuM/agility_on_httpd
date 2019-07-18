@@ -119,7 +119,7 @@ use Phpm\Exceptions\MethodExceptions\InvalidArgumentTypeException;
 			}
 
 			$instance = new $className;
-			if (!is_a(Log::$instance, "Psr\\Log\\LoggerInterface") && !is_a(Log::$instance, "Agility\\Logger\\Psr\\LoggerInterface")) {
+			if (!is_a($instance, "Psr\\Log\\LoggerInterface") && !is_a($instance, "Agility\\Logger\\Psr\\LoggerInterface")) {
 				throw new InvalidArgumentTypeException("Agility\\Logger\\Log::register()", 1, ["Psr\\Log\\LoggerInterface", "Agility\\Logger\\Psr\\LoggerInterface"], get_class($instance));
 			}
 
