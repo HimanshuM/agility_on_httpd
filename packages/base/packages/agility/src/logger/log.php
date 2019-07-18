@@ -115,7 +115,7 @@ use Phpm\Exceptions\MethodExceptions\InvalidArgumentTypeException;
 		static function register($className) {
 
 			if (!class_exists($className)) {
-				throw new ClassNotFoundException("Agility\\Logger\\Log::register()", $className);
+				throw new ClassNotFoundException($className);
 			}
 
 			$instance = new $className;
