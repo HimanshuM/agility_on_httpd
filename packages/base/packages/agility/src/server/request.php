@@ -8,7 +8,7 @@ use Agility\Http\Upload;
 use ArrayUtils\Arrays;
 use AttributeHelper\Accessor;
 
-	final class Request {
+	final class Request implements \JsonSerializable {
 
 		use Accessor;
 
@@ -154,6 +154,24 @@ use AttributeHelper\Accessor;
 
 		function put() {
 			return $this->method == "put";
+		}
+
+		function jsonSerialize() {
+
+			return [
+				"host" => $this->host,
+				"port" => $this->port,
+				"ip" => $this->ip,
+				"uri" => $this->uri,
+				"params" => $this->params,
+				"method" => $this->method,
+				"get" => $this->getParams,
+				"post" => $this->postParams,
+				"headers" => $this->headers,
+				"cookies" => $this->cookie,
+				"files" => $this->fileParams->keys
+			];
+
 		}
 
 	}
