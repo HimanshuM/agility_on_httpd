@@ -3,6 +3,7 @@
 namespace Agility\Server\Exceptions;
 
 use Agility\Http\Exceptions\HttpException;
+use StringHelpers\Inflect;
 
 	class ParameterMissingException extends HttpException {
 
