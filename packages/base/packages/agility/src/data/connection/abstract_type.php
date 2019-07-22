@@ -17,7 +17,7 @@ use Agility\Data\Schema\ForeignKeyRelation;
 			if (!empty(static::NativeTypes[$type])) {
 
 				$type = static::NativeTypes[$type];
-				if ($type == "float" || $type == "decimal") {
+				if ($type["name"] == "float" || $type["name"] == "decimal" || $type["name"] == "double") {
 
 					$precision = $precision ?: $type["precision"];
 					$scale = $scale ?: $type["scale"];
@@ -26,7 +26,7 @@ use Agility\Data\Schema\ForeignKeyRelation;
 
 				}
 
-				if ($type == "datetime" || $type == "timestamp") {
+				if ($type["name"] == "datetime" || $type["name"] == "timestamp") {
 					return $type["name"].($precision ? "($precision)" : "");
 				}
 
