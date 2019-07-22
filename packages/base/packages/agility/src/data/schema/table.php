@@ -50,12 +50,6 @@ use AttributeHelper\Accessor;
 
 		function __call($name, $args = []) {
 
-			if ($name == "references") {
-				$name = "reference";
-			}
-			else if ($name == "string") {
-				$name = "str";
-			}
 			$dataType = Base::getType($name);
 
 			if (count($args) == 0) {
@@ -83,13 +77,7 @@ use AttributeHelper\Accessor;
 		function column($attrName, $dataType, $options = []) {
 
 			if (!is_a($dataType, Base::class)) {
-
-				// if ($name == "string") {
-				// 	$name = "str";
-				// }
-
 				$dataType = Base::getType($dataType);
-
 			}
 
 			if (!empty($options["autoIncrement"]) && !is_a($dataType, "Agility\\Data\\Types\\Integer")) {
@@ -193,36 +181,7 @@ use AttributeHelper\Accessor;
 		}
 
 		protected function compileNonPolymorphicAttribute($attribute, $dataType) {
-
-			// $query = "`".$attribute->name."`";
-			// $query .= " ".$dataType;
-			// if ($attribute->dataType == "enum") {
-			// 	$query .= "(".$attribute->dataType->valuesString().")";
-			// }
-
-			// if (!$attribute->nullable) {
-			// 	$query .= " NOT NULL";
-			// }
-
-			// if (!is_null($attribute->defaultValue)) {
-			// 	$query .= " DEFAULT ".$this->connection->quote($attribute->defaultValue);
-			// }
-
-			// if (!is_null($attribute->onUpdate)) {
-			// 	$query .= " ON UPDATE ".$attribute->onUpdate;
-			// }
-
-			// if (!empty($attribute->comment)) {
-			// 	$query .= " COMMENT ".$attribute->comment;
-			// }
-
-			// if (!is_array($this->primaryKey) && $attribute->autoIncrement === true) {
-			// 	$query .= " AUTO_INCREMENT";
-			// }
-
-			// return $query;
 			return $attribute->toSql($this->connection);
-
 		}
 
 		protected function compilePrimaryKey() {

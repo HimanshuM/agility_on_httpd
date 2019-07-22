@@ -91,15 +91,15 @@ use StringHelpers\Inflect;
 					if (empty($tableName)) {
 						$tableName = $arg;
 					}
-					else if (empty($primaryKey)) {
+					elseif (empty($primaryKey)) {
 						$primaryKey = $arg;
 					}
 
 				}
-				else if (is_bool($arg) && empty($primaryKey)) {
+				elseif (is_bool($arg) && empty($primaryKey)) {
 					$primaryKey = $arg;
 				}
-				else if (is_callable($arg) && empty($callback)) {
+				elseif (is_callable($arg) && empty($callback)) {
 					$callback = $arg;
 				}
 				elseif (is_array($arg)) {

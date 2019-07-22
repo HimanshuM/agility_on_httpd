@@ -93,9 +93,8 @@ use StringHelpers\Str;
 				$typeName = Str::pascalCase(Str::componentName($className));
 			}
 
-			// if (!in_array($typeName, Base::$registeredTypes)) {
-				Base::$registeredTypes[$typeName] = $className;
-			// }
+			// Overwrite
+			Base::$registeredTypes[$typeName] = $className;
 
 		}
 
