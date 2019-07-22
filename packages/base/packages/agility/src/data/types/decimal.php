@@ -10,7 +10,16 @@ namespace Agility\Data\Types;
 
 			if (!empty($size)) {
 
-				$size = explode(",", $size);
+				if (is_string($size)) {
+					$size = explode(",", $size);
+				}
+				else if (is_numeric($size)) {
+					$size = [intval($size)];
+				}
+				else if (!is_array($size)) {
+					throw new Exception("Size for Float can only be numeric, numeric array, or comma-delimited numeric string", 1);
+				}
+
 				if (count($size) == 1) {
 					$this->scale = $size[0];
 				}
@@ -26,15 +35,15 @@ namespace Agility\Data\Types;
 		}
 
 		function cast($value) {
-			return floatval($value);
+			return doubleval($value);
 		}
 
 		static function getType($fieldSize = null) {
-			return parent::getType("integer", $fieldSize);
+			return parent::getType("decimal", $fieldSize);
 		}
 
 		function __toString() {
-			return "integer";
+			return "decimal";
 		}
 
 	}
