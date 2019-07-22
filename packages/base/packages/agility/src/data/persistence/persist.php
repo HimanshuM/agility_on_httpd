@@ -86,6 +86,35 @@ use StringHelpers\Str;
 
 		}
 
+		static function insert($params = []) {
+
+			if (isset($params[0])) {
+
+				foreach ($params as $param) {
+					static::insert($param);
+				}
+
+				return;
+
+			}
+
+			$relation = new Relation(static::class, Relation::Insert);
+			foreach ($params as $name => $value) {
+
+				$name = Str::snakeCase($name);
+
+				if (!is_a($name, Attribute::class)) {
+					$name = static::aquaTable()->$name;
+				}
+
+				$relation->statement->insert([$name, $value]);
+
+			}
+
+			return $relation->execute();
+
+		}
+
 		static function new() {
 
 			$obj = new static;
