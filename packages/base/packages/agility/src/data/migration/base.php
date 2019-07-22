@@ -102,6 +102,9 @@ use StringHelpers\Inflect;
 				else if (is_callable($arg) && empty($callback)) {
 					$callback = $arg;
 				}
+				elseif (is_array($arg)) {
+					$options = array_merge($options, $arg);
+				}
 				else {
 					$options[] = $arg;
 				}
