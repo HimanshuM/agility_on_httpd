@@ -367,7 +367,7 @@ use PDO;
 		}
 
 		private function _setCharacterSet($config) {
-			return $config["charset"] ?? null;
+			return $config["charset"] ?? "utf8mb4";
 		}
 
 		private function _setDBName($config) {

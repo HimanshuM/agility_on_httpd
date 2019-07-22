@@ -6,7 +6,8 @@
 			"port":"DEFAULT",
 			"database":"sample_db",
 			"username":"username",
-			"password":"password"
+			"password":"password",
+			"charset":"utf8mb4"
 		}
 	],
 	"test":[
@@ -16,7 +17,8 @@
 			"port":"DEFAULT",
 			"database":"sample_db",
 			"username":"username",
-			"password":"password"
+			"password":"password",
+			"charset":"utf8mb4"
 		}
 	],
 	"production":[
@@ -26,7 +28,8 @@
 			"port":"DEFAULT",
 			"database":"sample_db",
 			"username":"username",
-			"password":"password"
+			"password":"password",
+			"charset":"utf8mb4"
 		}
 	]
 }
