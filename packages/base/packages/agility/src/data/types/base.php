@@ -17,7 +17,8 @@ use StringHelpers\Str;
 			"int" => "integer",
 			"uint" => "u_int",
 			"datetime" => "datetime_db",
-			"float" => "float_db"
+			"float" => "float_db",
+			"references" => "reference"
 		];
 
 		const ValidTypes = [
