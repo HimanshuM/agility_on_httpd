@@ -27,8 +27,6 @@ use PDO;
 		protected $_username;
 		protected $_password;
 		protected $_extraConfig;
-		protected $_tablePrefix;
-		protected $_tableSuffix;
 
 		protected $_connection = null;
 
@@ -43,12 +41,7 @@ use PDO;
 
 			$this->attemptConnection();
 
-			$this->readonly(
-				["tablePrefix", "_tablePrefix"],
-				["tableSuffix", "_tableSuffix"]
-			);
-
-			return true;
+			$this->readonly(["charSet", "_charSet"]);
 
 		}
 
@@ -77,9 +70,6 @@ use PDO;
 			$this->_dbName = $this->_setDBName($config);
 			$this->_username = $this->_setUsername($config);
 			$this->_password = $this->_setPassword($config);
-
-			$this->_tablePrefix = $this->_setTablePrefix($config);
-			$this->_tableSuffix = $this->_setTableSuffix($config);
 
 			$this->_extraConfig = $this->_setExtraConfig($config);
 
@@ -421,14 +411,6 @@ use PDO;
 
 		private function _setPort($config) {
 			return $config["port"] ?? null;
-		}
-
-		private function _setTablePrefix($config) {
-			return $config["prefix"] ?? "";
-		}
-
-		private function _setTableSuffix($config) {
-			return $config["suffix"] ?? "";
 		}
 
 		private function _setUnixSocket($config) {
