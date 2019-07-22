@@ -2,7 +2,7 @@
 
 namespace Agility\Data\Types;
 
-	class Float extends Base {
+	class FloatDb extends Base {
 
 		function __construct($size = null) {
 
@@ -40,7 +40,7 @@ namespace Agility\Data\Types;
 				return $value;
 			}
 
-			return floatval($value);
+			return doubleval($value);
 
 		}
 
@@ -50,7 +50,7 @@ namespace Agility\Data\Types;
 				return $value;
 			}
 
-			return floatval($value);
+			return doubleval($value);
 
 		}
 
