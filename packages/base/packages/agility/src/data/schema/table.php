@@ -279,6 +279,12 @@ use AttributeHelper\Accessor;
 			if (isset($this->options["charSet"])) {
 				$query .= " DEFAULT CHARSET=".$this->options["charSet"];
 			}
+			else {
+				$query .= " DEFAULT CHARSET=".$this->connection->charSet;
+			}
+			if (!empty($this->options["collation"])) {
+				$query .= " COLLATE ".$this->options["collation"];
+			}
 			if (!empty($this->options["comment"])) {
 				$query .= " COMMENT ".$this->options["comment"];
 			}

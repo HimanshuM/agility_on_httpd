@@ -204,6 +204,10 @@ use AttributeHelper\Accessor;
 				$query .= " COMMENT ".$this->_comment;
 			}
 
+			if (!empty($this->_collation)) {
+				$query .= " COLLATE ".$this->_collation;
+			}
+
 			if ($this->_autoIncrement === true) {
 				$query .= " AUTO_INCREMENT";
 			}
