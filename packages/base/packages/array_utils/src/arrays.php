@@ -158,7 +158,7 @@ if (!defined("nil")) {
 				$arr = [$arr];
 			}
 
-			return new Arrays(array_diff($this->_internal, $arr));
+			return new static(array_diff($this->_internal, $arr));
 
 		}
 
@@ -171,7 +171,7 @@ if (!defined("nil")) {
 		}
 
 		static function explode($delimiter, $string) {
-			return new Arrays(explode($delimiter, $string));
+			return new static(explode($delimiter, $string));
 		}
 
 		function fetch($key) {
@@ -223,7 +223,7 @@ if (!defined("nil")) {
 				return $this->invoke(substr($callback, 1), 1);
 			}
 
-			return new Arrays(array_filter($this->_internal, $callback, $flag));
+			return new static(array_filter($this->_internal, $callback, $flag));
 
 		}
 
@@ -233,7 +233,7 @@ if (!defined("nil")) {
 				return false;
 			}
 
-			return new Arrays(array_slice($this->_internal, 0, $length));
+			return new static(array_slice($this->_internal, 0, $length));
 
 		}
 
@@ -262,7 +262,7 @@ if (!defined("nil")) {
 				$keys = [$keys];
 			}
 
-			return new Arrays(array_diff_key($this->_internal, array_flip($keys)));
+			return new static(array_diff_key($this->_internal, array_flip($keys)));
 
 		}
 
@@ -275,7 +275,7 @@ if (!defined("nil")) {
 				$arr = [$arr];
 			}
 
-			return new Arrays(array_intersect($this->_internal, $arr));
+			return new static(array_intersect($this->_internal, $arr));
 
 		}
 
@@ -289,7 +289,7 @@ if (!defined("nil")) {
 
 			$map = $walkers[$map];
 
-			return new Arrays($map(function($e) use ($arg) {
+			return new static($map(function($e) use ($arg) {
 
 				if (method_exists($e, $arg)) {
 					return $e->$arg();
@@ -306,7 +306,7 @@ if (!defined("nil")) {
 		}
 
 		function keys() {
-			return new Arrays($this->_keys);
+			return new static($this->_keys);
 		}
 
 		function last($value = nil) {
@@ -329,7 +329,7 @@ if (!defined("nil")) {
 				return false;
 			}
 
-			return new Arrays(array_slice($this->_internal, -$offset));
+			return new static(array_slice($this->_internal, -$offset));
 
 		}
 
@@ -364,7 +364,7 @@ if (!defined("nil")) {
 
 			}
 
-			return new Arrays(call_user_func_array("array_map", $args));
+			return new static(call_user_func_array("array_map", $args));
 
 		}
 
@@ -393,7 +393,7 @@ if (!defined("nil")) {
 				$keys = $keys->_internal;
 			}
 
-			return new Arrays(array_intersect_key($this->_internal, array_flip($keys)));
+			return new static(array_intersect_key($this->_internal, array_flip($keys)));
 
 		}
 
@@ -401,9 +401,9 @@ if (!defined("nil")) {
 
 			$keys = func_get_args();
 
-			$return = new Arrays;
+			$return = new static;
 			foreach ($this->_internal as $each) {
-				$return[] = new Arrays(array_values(array_intersect_key($each, array_flip($keys))));
+				$return[] = new static(array_values(array_intersect_key($each, array_flip($keys))));
 			}
 
 			return $return;
@@ -438,7 +438,7 @@ if (!defined("nil")) {
 		}
 
 		static function range($start, $end, $step = 1) {
-			return new Arrays(range($start, $end, $step));
+			return new static(range($start, $end, $step));
 		}
 
 		function recursiveMerge($arr = []) {
@@ -483,12 +483,12 @@ if (!defined("nil")) {
 				return null;
 			}
 
-			return new Arrays(array_slice($this->_internal, $offset));
+			return new static(array_slice($this->_internal, $offset));
 
 		}
 
 		function slice($offset = 0, $length = null, $preserveKey = false) {
-			return new Arrays(array_slice($this->_internal, $offset, $length, $preserveKey));
+			return new static(array_slice($this->_internal, $offset, $length, $preserveKey));
 		}
 
 		function splice($offset = 0, $length = null, $replacement = []) {
@@ -505,7 +505,7 @@ if (!defined("nil")) {
 		}
 
 		static function split($delimiter, $string) {
-			return new Arrays(explode($delimiter, $string));
+			return new static(explode($delimiter, $string));
 		}
 
 		function take($length) {
@@ -513,11 +513,11 @@ if (!defined("nil")) {
 		}
 
 		function unique($flag = SORT_STRING) {
-			return new Arrays(array_unique($this->_internal, $flags));
+			return new static(array_unique($this->_internal, $flags));
 		}
 
 		function values() {
-			return new Arrays(array_values($this->_internal));
+			return new static(array_values($this->_internal));
 		}
 
 		function walk($callback, $userData = null) {
@@ -526,7 +526,7 @@ if (!defined("nil")) {
 				return $this->invoke(substr($callback, 1), 2);
 			}
 
-			return new Arrays(array_walk($this->_internal, $callback, $userData));
+			return new static(array_walk($this->_internal, $callback, $userData));
 
 		}
 
