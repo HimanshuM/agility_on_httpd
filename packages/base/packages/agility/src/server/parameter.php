@@ -8,7 +8,18 @@ use Phpm\Exceptions\MethodExceptions\InvalidArgumentTypeException;
 	class Parameter extends Arrays {
 
 		function require($keys) {
-			return new Parameter($this->fetch($keys, new Exceptions\ParameterMissingException($keys)));
+
+			$filter = $this->fetch($keys, new Exceptions\ParameterMissingException($keys));
+			if (is_array($keys) || is_a($keys, Arrays::class)) {
+
+				if (!$filter->ignore($keys)->empty) {
+					throw new Exceptions\ParameterMissingException($keys);
+				}
+
+			}
+
+			return $filter;
+
 		}
 
 		function permit($keys = []) {
@@ -17,7 +28,7 @@ use Phpm\Exceptions\MethodExceptions\InvalidArgumentTypeException;
 				return $this;
 			}
 
-			return new Parameter($this->pick($keys));
+			return $this->pick($keys);
 
 		}
 
