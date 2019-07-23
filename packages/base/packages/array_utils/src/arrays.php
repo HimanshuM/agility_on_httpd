@@ -176,13 +176,24 @@ if (!defined("nil")) {
 
 		function fetch($key) {
 
-			if (in_array($key, $this->_keys)) {
+			if (is_a($key, Arrays::class)) {
+				$key = $key->_internal;
+			}
+
+			if (is_array($key)) {
+
+				if (!empty($values = array_intersect_key($this->_internal, array_flip($key)))) {
+					return new static($values);
+				}
+
+			}
+			else if (in_array($key, $this->_keys, true)) {
 
 				if (!is_array(($value = $this->_internal[$key]))) {
 					return $value;
 				}
 
-				return new Arrays($value);
+				return new static($value);
 
 			}
 
