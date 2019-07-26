@@ -33,7 +33,7 @@ use AttributeHelper\Accessor;
 		}
 
 		function all() {
-			return $this->states;
+			return $this->stateNames;
 		}
 
 		function allEvents() {
