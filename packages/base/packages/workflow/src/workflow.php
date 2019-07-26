@@ -87,6 +87,10 @@ use ArrayUtils\Arrays;
 
 		}
 
+		function workflowStates() {
+			return static::_workflow();
+		}
+
 	}
 
 ?>
