@@ -140,7 +140,7 @@ use ArrayUtils\Arrays;
 
 			foreach ($trigger as $method => $except) {
 
-				if (!in_array($action, $except)) {
+				if (!in_array($action, $except->array)) {
 
 					$this->$method();
 					$prop = $this->_triggerBreaker;
