@@ -75,6 +75,9 @@ use Phpm\Exceptions\PropertyExceptions\PropertyNotFoundException;
 			if (strpos($name, "findBy") === 0) {
 				return static::findByResolver(substr($name, strlen("findBy")), $args);
 			}
+			else if (strpos($name, "fetchBy") === 0) {
+				return static::fetchByResolver(substr($name, strlen("fetchBy")), $args);
+			}
 			else if (in_array($name, static::$CALLBACKS)) {
 				return static::_addToCallbacks($name, $args);
 			}

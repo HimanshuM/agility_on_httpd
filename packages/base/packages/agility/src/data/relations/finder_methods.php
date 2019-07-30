@@ -71,6 +71,34 @@ use Agility\Data\Relation;
 
 		static function findByResolver($stub, $values) {
 
+			$attributes = static::resolveColumns($stub, $values);
+
+			$resultSet = static::where($attributes)->all;
+			if ($resultSet->empty) {
+				return false;
+			}
+			else {
+				return $resultSet->first;
+			}
+
+		}
+
+		static function fetchByResolver($stub, $values) {
+
+			$attributes = static::resolveColumns($stub, $values);
+
+			$resultSet = static::where($attributes)->all;
+			if ($resultSet->empty) {
+				throw new RecordNotFoundException(static::class, $attributes);
+			}
+			else {
+				return $resultSet->first;
+			}
+
+		}
+
+		static protected function resolveColumns($stub, $values) {
+
 			$matches = [];
 			$offset = 0;
 			$attributes = [];
@@ -91,13 +119,7 @@ use Agility\Data\Relation;
 				$attributes[NameHelper::getStorableName($stub)] = $values[0];
 			}
 
-			$resultSet = static::where($attributes)->all;
-			if ($resultSet->empty) {
-				return false;
-			}
-			else {
-				return $resultSet->first;
-			}
+			return $attributes;
 
 		}
 
