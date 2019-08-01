@@ -127,7 +127,7 @@ use ArrayUtils\Arrays;
 					$tableName = NameHelper::tablize(static::class);
 				}
 
-				$tableName = (static::metaStore()->connection->tablePrefix).$tableName.(static::metaStore()->connection->tableSuffix);
+				$tableName = (static::metaStore()->connection->prefix).$tableName.(static::metaStore()->connection->suffix);
 
 				static::metaStore()->tableName = $tableName;
 				static::aquaTable();
