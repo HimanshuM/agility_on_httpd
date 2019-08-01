@@ -35,11 +35,23 @@ namespace Agility\Data\Types;
 		}
 
 		function cast($value) {
+
+			if (is_null($value)) {
+				return $value;
+			}
+
 			return doubleval($value);
+
 		}
 
-		static function getType($fieldSize = null) {
-			return parent::getType("decimal", $fieldSize);
+		function serialize($value) {
+
+			if (is_null($value)) {
+				return $value;
+			}
+
+			return floatval($value);
+
 		}
 
 		function __toString() {
