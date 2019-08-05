@@ -28,17 +28,19 @@ use ArrayUtils\Arrays;
 					$except = [$except];
 				}
 
-				$this->$trigger[$method] = $except;
+				$this->$trigger[$method] = new Arrays($except);
 
 			}
 			else if (!empty($except)) {
 
 				if (!is_array($except)) {
-					$this->$trigger[$method][] = $except;
+					$except = [$except];
 				}
-				else {
-					$this->$trigger[$method] = array_merge($this->$trigger[$method], $except);
-				}
+
+				$triggers = $this->$trigger[$method];
+				$triggers->merge($except);
+
+				$this->$trigger[$method] = $triggers;
 
 			}
 
