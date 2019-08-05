@@ -125,7 +125,7 @@ use Closure;
 
 		}
 
-		function respond404() {
+		function respond404($msg = []) {
 			parent::respond404(["html" => file_get_contents("404.html")]);
 		}
 
