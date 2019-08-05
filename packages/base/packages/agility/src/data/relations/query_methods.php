@@ -43,7 +43,7 @@ namespace Agility\Data\Relations;
 		}
 
 		static function orderBy() {
-			return call_user_func_array([static::initializeRelation(), "orderBy"], func_get_args());
+			return call_user_func_array([static::initializeRelation(), "order"], func_get_args());
 		}
 
 		static function pluck() {
