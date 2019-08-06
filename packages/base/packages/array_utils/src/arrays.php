@@ -151,7 +151,7 @@ if (!defined("nil")) {
 
 		function diff($arr) {
 
-			if (is_a($arr, "ArrayUtils\\Arrays")) {
+			if (is_a($arr, Arrays::class)) {
 				$arr = $arr->_internal;
 			}
 			else if (!is_array($arr)) {
@@ -268,7 +268,7 @@ if (!defined("nil")) {
 
 		function intersect($arr) {
 
-			if (is_a($arr, "ArrayUtils\\Arrays")) {
+			if (is_a($arr, Arrays::class)) {
 				$arr = $arr->_internal;
 			}
 			else if (!is_array($arr)) {
@@ -353,7 +353,7 @@ if (!defined("nil")) {
 					if (is_array($arg)) {
 						$args[] = $arg;
 					}
-					else if (is_a($arg, "Arrays\Arrays")) {
+					else if (is_a($arg, Arrays::class)) {
 						$args[] = $arg->_internal;
 					}
 					else {
@@ -391,6 +391,9 @@ if (!defined("nil")) {
 
 			if (is_a($keys, Arrays::class)) {
 				$keys = $keys->_internal;
+			}
+			elseif (!is_array($keys)) {
+				$keys = [$keys];
 			}
 
 			return new static(array_intersect_key($this->_internal, array_flip($keys)));
@@ -513,7 +516,7 @@ if (!defined("nil")) {
 		}
 
 		function unique($flag = SORT_STRING) {
-			return new static(array_unique($this->_internal, $flags));
+			return new static(array_unique($this->_internal, $flag));
 		}
 
 		function values() {
