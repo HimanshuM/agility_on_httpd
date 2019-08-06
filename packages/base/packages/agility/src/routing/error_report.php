@@ -75,7 +75,7 @@ use FileSystem\FileSystem;
 
 			if (Configuration::environment() != "development") {
 
-				Log::error($exception);
+				Log::error($exception, $context);
 				$response->respond("");
 
 			}
