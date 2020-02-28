@@ -18,6 +18,8 @@ use FileSystem\File;
 
 		static function getConnection($connectionName = null) {
 
+			Pool::initialize();
+
 			if (empty($connectionName)) {
 				$connectionName = Pool::$defaultConnection;
 			}
@@ -31,6 +33,10 @@ use FileSystem\File;
 		}
 
 		static function initialize() {
+
+			if (Pool::isInitialized()) {
+				return;
+			}
 
 			if (empty(Configuration::logDbQueries())) {
 				Configuration::logDbQueries(true);
