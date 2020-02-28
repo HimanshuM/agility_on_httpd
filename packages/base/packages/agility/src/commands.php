@@ -16,7 +16,7 @@ use ArrayUtils;
 			"v" => "version"
 		];
 
-		function __construct($argv) {
+		protected function __construct($argv) {
 
 			if (is_a($argv, "ArrayUtils\\Arrays")) {
 				$this->_argv = $argv;
@@ -43,6 +43,10 @@ use ArrayUtils;
 
 			Console\Command::invoke($cmd, $this->_argv);
 
+		}
+
+		static function invoke($argv) {
+			return new Commands($argv);
 		}
 
 	}
