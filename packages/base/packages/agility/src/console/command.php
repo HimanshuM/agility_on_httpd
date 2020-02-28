@@ -4,6 +4,7 @@ namespace Agility\Console;
 
 use Agility\AppLoader;
 use ArrayUtils\Arrays;
+use Error;
 use Exception;
 use FileSystem\FileSystem;
 use StringHelpers\Str;
@@ -26,17 +27,7 @@ use StringHelpers\Str;
 
 			static::hidden("Agility\\Console\\Commands\\Base");
 
-			$namespaces = [[FileSystem::path(__DIR__."/commands"), "Agility\\Console\\Commands"]];
-			if (defined("APP_PATH")) {
-
-				$appPath = FileSystem::path(APP_PATH);
-				$appPath = $appPath->cwd->chdir("..");
-
-				AppLoader::setupApplicationAutoloader($appPath);
-
-				$namespaces[] = [FileSystem::path($appPath->has("lib/tasks")), "Lib\\Tasks"];
-
-			}
+			$namespaces = static::configureNamespaces();
 
 			if (($result = self::lookup($command, $namespaces)) === false) {
 
@@ -45,29 +36,28 @@ use StringHelpers\Str;
 
 			}
 
-			list($class, $method) = $result;
-
-			// A class present inside Commands or lib/tasks directory can register itself as hidden from it's constructor by invoking Agility\Command::hidden("<namespace\class_name>"");
-			if (self::$_hiddenCommands->has($class)) {
-				echo "'$command' does not exist. Please type 'agility help' to see the list of available commands.";
-			}
-			else {
-
-				$object = new $class;
-
-				try {
-					$object->$method($args);
-				}
-				catch (Exception $e) {
-
-					echo $e->getMessage()."\n";
-					echo $e->getTraceAsString();
-
-				}
-
-			}
+			static::invokeCommand($result);
 
 			echo "\n";
+
+		}
+
+		static function configureNamespaces() {
+
+			$namespaces = ["Agility\\Console\\Commands" => FileSystem::path(__DIR__."/commands")];
+
+			if (defined("APP_PATH")) {
+
+				$appPath = FileSystem::path(APP_PATH);
+				$appPath = $appPath->cwd->chdir("..");
+
+				AppLoader::setupApplicationAutoloader($appPath);
+
+				$namespaces["Lib\\Tasks"] = [FileSystem::path($appPath->has("lib/tasks"))];
+
+			}
+
+			return $namespaces;
 
 		}
 
@@ -85,22 +75,55 @@ use StringHelpers\Str;
 
 			$method = Str::pascalCase($method);
 
-			foreach ($namespaces as $namespace) {
+			foreach ($namespaces as $namespace => $path) {
 
 				$classPath = $class;
-				if ($namespace[1] == "Agility\\Console\\Commands") {
+				if ($namespace == "Agility\\Console\\Commands") {
 					$classPath .= "_command";
 				}
 
 				$tryClass = Str::camelCase($classPath);
 
-				if ($namespace[0]->has($classPath.".php") && method_exists($namespace[1]."\\".$tryClass, $method)) {
-					return [$namespace[1]."\\".$tryClass, $method];
+				if ($path->has($classPath.".php") && method_exists($namespace."\\".$tryClass, $method)) {
+					return [$namespace."\\".$tryClass, $method];
 				}
 
 			}
 
 			return false;
+
+		}
+
+		protected static function invokeCommand($arg) {
+
+			list($class, $method) = $arg;
+
+			// A class present inside Commands or lib/tasks directory can register itself as hidden from it's constructor by invoking Agility\Command::hidden("<namespace\class_name>"");
+			if (self::$_hiddenCommands->has($class)) {
+				echo "'$command' does not exist. Please type 'agility help' to see the list of available commands.";
+			}
+			else {
+
+				try {
+
+					$object = new $class;
+					$object->$method($args);
+
+				}
+				catch (Exception $e) {
+
+					echo $e->getMessage()."\n";
+					echo $e->getTraceAsString();
+
+				}
+				catch (Error $e) {
+
+					echo $e->getMessage()."\n";
+					echo $e->getTraceAsString();
+
+				}
+
+			}
 
 		}
 
