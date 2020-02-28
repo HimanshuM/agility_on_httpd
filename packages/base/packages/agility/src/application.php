@@ -50,7 +50,46 @@ use StringHelpers\Str;
 			Initializers\PostInitializer::execute();
 		}
 
-		function firstStageInitialization() {
+		protected function initialize() {
+
+			Configuration::uploadDir("storage");
+			if (Configuration::documentRoot()->has("tmp")) {
+				Configuration::tempDir(Configuration::documentRoot()->chdir("tmp"));
+			}
+
+		}
+
+		function initializeApplication() {
+
+			$this->initializeFirstStage();
+			$this->initializeSecondStage();
+
+			// This has been moved below second stage initialization because, one of the post initializers
+			// defines the default DB connection, which could be used by any of the models.
+			try {
+				$this->prepareApplication();
+			}
+			catch (Exception $e) {
+				$this->reportError($e, true);
+			}
+			catch (Error $e) {
+				$this->reportError($e, true);
+			}
+
+		}
+
+		protected function initializeComponents() {
+
+			$this->initializeLogging();
+			$this->initializeRouting();
+			$this->initializeHttp();
+			$this->initializeSecurity();
+			$this->initializeMailer();
+			$this->setupCaching();
+
+		}
+
+		function initializeFirstStage() {
 
 			$this->setupApplicationAutoloader();
 			$this->setupComposerAutoloader();
@@ -73,35 +112,6 @@ use StringHelpers\Str;
 
 		}
 
-		protected function initialize() {
-
-			Configuration::uploadDir("storage");
-			if (Configuration::documentRoot()->has("tmp")) {
-				Configuration::tempDir(Configuration::documentRoot()->chdir("tmp"));
-			}
-
-		}
-
-		protected function initializeComponents() {
-
-			$this->initializeLogging();
-			$this->initializeDatabase();
-			$this->initializeRouting();
-			$this->initializeHttp();
-			$this->initializeSecurity();
-			$this->initializeMailer();
-			$this->setupCaching();
-
-		}
-
-		protected function initializeDatabase() {
-
-			if (!$this->noDatabase) {
-				Pool::initialize();
-			}
-
-		}
-
 		protected function initializeHttp() {
 			Http\Configuration::initialize();
 		}
@@ -118,6 +128,13 @@ use StringHelpers\Str;
 			Routes::initialize();
 		}
 
+		function initializeSecondStage() {
+
+			$this->executePostInitializers();
+			$this->setupSessionStoreCleanupRoutine();
+
+		}
+
 		protected function initializeSecurity() {
 			Http\Security\Secure::initialize();
 		}
@@ -130,33 +147,10 @@ use StringHelpers\Str;
 			AppLoader::loadModels();
 		}
 
-		function run($listen = true) {
+		function run() {
 
-			$this->firstStageInitialization();
-			$this->secondStageInitialization();
-
-			// This has been moved below second stage initialization because, one of the post initializers
-			// defines the default DB connection, which could be used by any of the models.
-			try {
-				$this->prepareApplication();
-			}
-			catch (Exception $e) {
-				$this->reportError($e, true);
-			}
-			catch (Error $e) {
-				$this->reportError($e, true);
-			}
-
-			if ($listen) {
-				$this->listner();
-			}
-
-		}
-
-		function secondStageInitialization() {
-
-			$this->executePostInitializers();
-			$this->setupSessionStoreCleanupRoutine();
+			$this->initializeApplication();
+			$this->listner();
 
 		}
 
