@@ -23,15 +23,31 @@ use StringHelpers\Str;
 		private $_overwrite = false;
 		private $_options;
 
-		const Shorthand = [
+		protected static $shorthand = [
 			"c" => "controller",
 			"m" => "model",
 			"s" => "scaffold",
 			"t" => "task"
 		];
 
-		private function _controller($args) {
-			ControllerGenerator::start($this->_appPath, $this->_appRoot, $args);
+		protected static $generators = [
+			"controller" => ControllerGenerator::class,
+			"mailer" => MailerGenerator::class,
+			"migration" => MigrationGenerator::class,
+			"model" => ModelGenerator::class,
+			"scaffold" => ScaffoldGenerator::class,
+			"task" => TaskGenerator::class
+		];
+
+		static function register($stub, $className, $shorthand = false) {
+
+			if (!empty(GenerateCommand::$shorthand[$shorthand])) {
+				throw new Exceptions\GeneratorStubTakenException($shorthand);
+			}
+
+			GenerateCommand::$generators[$stub] = $className;
+			GenerateCommand::$shorthand[$shorthand] = $stub;
+
 		}
 
 		private function _echo($str) {
@@ -56,18 +72,6 @@ use StringHelpers\Str;
 
 		}
 
-		private function _mailer($args) {
-			MailerGenerator::start($this->_appPath, $this->_appRoot, $args);
-		}
-
-		private function _migration($args) {
-			MigrationGenerator::start($this->_appPath, $this->_appRoot, $args);
-		}
-
-		private function _model($args) {
-			ModelGenerator::start($this->_appPath, $this->_appRoot, $args);
-		}
-
 		function perform($args) {
 
 			if (!$this->requireApp()) {
@@ -79,18 +83,17 @@ use StringHelpers\Str;
 			$stub = $args->shift();
 			$stub = strtolower($stub);
 
-			if (isset(GenerateCommand::Shorthand[$stub])) {
-				$stub = GenerateCommand::Shorthand[$stub];
+			if (isset(GenerateCommand::$shorthand[$stub])) {
+				$stub = GenerateCommand::$shorthand[$stub];
 			}
 
-			if (in_array($stub, ["controller", "migration", "model", "scaffold", "task"])) {
+			if (!empty(GenerateCommand::$generators[$stub])) {
 
 				if ($this->requireArgs($args, $stub)) {
 
 					$this->instantiateApplication([]);
-
-					$stub = "_".$stub;
-					$this->$stub($args);
+					$className = GenerateCommand::$generators[$stub];
+					$className::start($this->_appPath, $this->_appRoot, $args);
 
 				}
 
@@ -112,14 +115,6 @@ use StringHelpers\Str;
 
 			return true;
 
-		}
-
-		private function _scaffold($args) {
-			ScaffoldGenerator::start($this->_appPath, $this->_appRoot, $args);
-		}
-
-		private function _task($args) {
-			TaskGenerator::start($this->_appPath, $this->_appRoot, $args);
 		}
 
 	}
