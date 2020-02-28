@@ -22,11 +22,11 @@ use ArrayUtils\Arrays;
 		function loadApp() {
 
 			if (!$this->_argv->second) {
-				return new Commands($this->_argv->slice(1));
+				return Commands::invoke($this->_argv->slice(1));
 			}
 
 			if (!AppLoader::executeApp($this->_argv->slice(1))) {
-				return new Commands($this->_argv->slice(1));
+				return Commands::invoke($this->_argv->slice(1));
 			}
 
 		}
