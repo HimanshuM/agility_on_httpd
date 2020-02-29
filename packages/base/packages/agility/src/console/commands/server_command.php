@@ -15,17 +15,12 @@ use Agility\Initializers\ApplicationInitializer;
 			}
 
 			$className = $this->loadApplication($args);
-
-			if (/*$this->_environment == "production"*/false) {
-
-				$this->exportOptions();
-
+			$app = new $className;
+			if (in_array("--init-only", $args)) {
+				$app->initialize();
 			}
 			else {
-
-				$app = new $className;
-				$app->run(!in_array("--task-only", $args));
-
+				$app->run();
 			}
 
 		}
