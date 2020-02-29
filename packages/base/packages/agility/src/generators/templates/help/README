@@ -1,4 +1,7 @@
-Agility Help
+Agility v0.5 running on PHPM on HTTPD
+Agility is a rapid web application development framework for PHP.
+This version of Agility runs on Apache and Nginx.
+
 Format: agility <command> [options]
 Available commands:
 
