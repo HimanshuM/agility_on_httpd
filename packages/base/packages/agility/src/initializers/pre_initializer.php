@@ -8,7 +8,7 @@ use Agility\Configuration;
 
 		static function execute() {
 
-			$configDir = Configuration::documentRoot()->chdir("config");
+			$configDir = Configuration::documentRoot()->chdir("config/environments");
 			if (($envFile = $configDir->has(Configuration::environment().".php"))) {
 				require_once $envFile;
 			}
