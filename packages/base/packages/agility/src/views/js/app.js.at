@@ -1,0 +1,19 @@
+class Index extends Application {
+	constructor() {
+		super();
+	}
+	init() {
+		Routes.draw([
+
+		]);
+		this.bootstrap();
+	}
+}
+class  extends Component {
+	templateUrl = "";
+	selector = "";
+	title = "";
+	constructor() {
+		super();
+	}
+}

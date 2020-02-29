@@ -1,0 +1,14 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace App\Assets\Components;
+
+use Agility\Views\Component;
+
+	class AppComponent extends Component {
+
+		public $templateUrl = "app";
+		public $title = "<?= $this->appName(); ?>";
+
+	}
+
+<?= $this->phpTagClose(); ?>

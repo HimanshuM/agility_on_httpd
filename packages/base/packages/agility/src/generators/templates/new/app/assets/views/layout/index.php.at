@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<base href="/">
+	<?= $this->phpEchoTagOpen(); ?> $this->js(); <?= $this->phpTagClose()."\n"; ?>
+	<?= $this->phpEchoTagOpen(); ?> $this->css(); <?= $this->phpTagClose()."\n"; ?>
+</head>
+<body>
+	<app-root></app-root>
+</body>
+</html>

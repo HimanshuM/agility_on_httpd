@@ -1,0 +1,14 @@
+class Index extends Application {
+	constructor() {
+		super();
+		<?= $this->constructorContent(); ?>
+	}
+	init() {
+		Routes.draw([
+			<?= $this->routesContent(); ?>
+		]);
+		this.bootstrap();
+		<?= $this->initContent(); ?>
+	}
+	<?= $this->otherContent(); ?>
+}

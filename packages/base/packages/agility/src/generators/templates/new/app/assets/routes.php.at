@@ -1,0 +1,7 @@
+<?= $this->phpTagOpen(); ?>
+
+	Agility\Views\Routes::draw([
+		"/" => "RootComponent",
+	]);
+
+<?= $this->phpTagClose(); ?>

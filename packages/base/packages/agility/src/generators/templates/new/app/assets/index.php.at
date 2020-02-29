@@ -1,0 +1,18 @@
+<?= $this->phpTagOpen(); ?>
+
+namespace App\Assets;
+
+use Agility\Views\Application;
+
+	class Index extends Application {
+
+		function __construct() {
+
+			parent::__construct();
+			$this->bootstrap(Component\AppComponent::class);
+
+		}
+
+	}
+
+<?= $this->phpTagClose(); ?>
