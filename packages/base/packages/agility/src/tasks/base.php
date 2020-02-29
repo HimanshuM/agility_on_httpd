@@ -16,7 +16,7 @@ use Agility\Console\Helpers\EchoHelper;
 		function __construct() {
 
 			$server = new ServerCommand;
-			$server->perform(["--task-only"]);
+			$server->perform(["--init-only"]);
 
 		}
 
