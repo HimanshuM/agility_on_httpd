@@ -1,0 +1,5 @@
+<?= $this->phpTagOpen(); ?>
+
+// This file is loaded once Agility has booted and before any components are initialized
+
+<?= $this->phpTagClose(); ?>
