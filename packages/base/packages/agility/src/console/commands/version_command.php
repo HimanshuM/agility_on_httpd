@@ -5,7 +5,7 @@ namespace Agility\Console\Commands;
 	class VersionCommand extends Base {
 
 		function perform($args) {
-			echo "Agility version 1.0.httpd";
+			echo "Agility version 0.5.httpd";
 		}
 
 	}
