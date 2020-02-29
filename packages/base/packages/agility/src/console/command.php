@@ -36,7 +36,7 @@ use StringHelpers\Str;
 
 			}
 
-			static::invokeCommand($result);
+			static::invokeCommand($result, $args);
 
 			echo "\n";
 
@@ -94,9 +94,9 @@ use StringHelpers\Str;
 
 		}
 
-		protected static function invokeCommand($arg) {
+		protected static function invokeCommand($target, $args) {
 
-			list($class, $method) = $arg;
+			list($class, $method) = $target;
 
 			// A class present inside Commands or lib/tasks directory can register itself as hidden from it's constructor by invoking Agility\Command::hidden("<namespace\class_name>"");
 			if (self::$_hiddenCommands->has($class)) {
